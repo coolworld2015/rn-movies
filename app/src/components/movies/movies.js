@@ -28,7 +28,8 @@ class Movies extends Component {
 
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQuery: props.searchQuery,
+            searchQuery: 'Sex',
+            //searchQuery: props.searchQuery,
             showProgress: true,
 						resultsCount: 0
         };

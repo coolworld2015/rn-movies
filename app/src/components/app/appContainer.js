@@ -16,21 +16,15 @@ import {
     TextInput
 } from 'react-native';
 
-import Login from './login';
-import Clients from '../clients/clients';
-import Collection from '../collection/collection';
 import Search from '../movies/search';
-import Phones from '../phones/phones';
-import PhoneSearch from '../phones/phoneSearch';
-import Users from '../users/users';
-import UserAdd from '../users/userAdd';
+import Movies from '../movies/movies';
 
 class AppContainer extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            selectedTab: 'Phones'
+            selectedTab: 'Movies'
         }
     }
 
@@ -52,103 +46,29 @@ class AppContainer extends Component {
       */
       return (
         <TabBarIOS style={styles.AppContainer}>
-            <TabBarIOS.Item
-                title="Clients"
-                systemIcon="top-rated"
-                selected={this.state.selectedTab == 'Clients'}
-        				onPress={()=> this.setState({selectedTab: 'Clients'})}>
 
-        				<NavigatorIOS
-                    style={{
-                        flex: 1
-                    }}
-                    initialRoute={{
-                        component: Clients,
-                        title: 'Clients'
-                    }}
-                />
-            </TabBarIOS.Item>
+        <TabBarIOS.Item
+            title="Movies"
+            systemIcon="favorites"
+            selected={this.state.selectedTab == 'Movies'}
+            onPress={()=> this.setState({selectedTab: 'Movies'})}>
 
-            <TabBarIOS.Item
-                title="Collection"
-                systemIcon="history"
-                selected={this.state.selectedTab == 'Collection'}
-        				onPress={()=> this.setState({selectedTab: 'Collection'})}>
-
-                <NavigatorIOS
-                    style={{
-                        flex: 1
-                    }}
-                    initialRoute={{
-                        component: Collection,
-                        title: 'Collection'
-                    }}
-                />
-            </TabBarIOS.Item>
-
-            <TabBarIOS.Item
-                 title="Phones"
-                 systemIcon="bookmarks"
-                 selected={this.state.selectedTab == 'Phones'}
-         				 onPress={()=> this.setState({selectedTab: 'Phones'})}>
-
-                 <NavigatorIOS
-                     style={{
-                         flex: 1
-                     }}
-                     ref="phones"
-                     initialRoute={{
-                         component: Phones,
-                         title: 'Phones',
-                         rightButtonTitle: 'Search',
-                         onRightButtonPress: () => {
-                             this.refs.phones.navigator.push({
-                                 title: "Search",
-                                 component: PhoneSearch,
-                                 rightButtonTitle: 'Cancel',
-                                 onRightButtonPress: () => {
-                                   this.refs.phones.navigator.pop()
-                                 }
-                               });
- 												}
-                     }}
-                 />
-             </TabBarIOS.Item>
-
-             <TabBarIOS.Item
-                  title="Users"
-        					systemIcon="contacts"
-                  selected={this.state.selectedTab == 'Users'}
-          				onPress={()=> this.setState({selectedTab: 'Users'})}>
-
-                  <NavigatorIOS
-                      style={{
-                          flex: 1
-                      }}
-                      ref="users"
-                      initialRoute={{
-                          component: Users,
-                          title: 'Users',
-                          rightButtonTitle: 'Add',
-                          onRightButtonPress: () => {
-                              this.refs.users.navigator.push({
-                                  title: "New user",
-                                  component: UserAdd,
-                                  rightButtonTitle: 'Cancel',
-                                  onRightButtonPress: () => {
-                                    this.refs.users.navigator.pop();
-                                  }
-                                });
-  												}
-                      }}
-                  />
-              </TabBarIOS.Item>
+            <NavigatorIOS
+                style={{
+                    flex: 1
+                }}
+                initialRoute={{
+                    component: Movies,
+                    title: 'Movies'
+                }}
+           />
+        </TabBarIOS.Item>
 
             <TabBarIOS.Item
                 title="Search"
       					systemIcon="search"
-                selected={this.state.selectedTab == 'Movies'}
-                onPress={()=> this.setState({selectedTab: 'Movies'})}>
+                selected={this.state.selectedTab == 'Search'}
+                onPress={()=> this.setState({selectedTab: 'Search'})}>
 
                 <NavigatorIOS
                     style={{
