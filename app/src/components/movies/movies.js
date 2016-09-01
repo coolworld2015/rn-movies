@@ -25,11 +25,11 @@ class Movies extends Component {
         var ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2
         });
-
+console.log(props);
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQuery: 'Sex',
-            //searchQuery: props.searchQuery,
+            //searchQuery: 'Sex',
+            searchQuery: props.searchQuery,
             showProgress: true,
 						resultsCount: 0
         };

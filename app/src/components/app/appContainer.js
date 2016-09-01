@@ -24,26 +24,13 @@ class AppContainer extends Component {
         super(props);
 
         this.state = {
-            selectedTab: 'Movies'
+            selectedTab: 'Movies',
+            searchQuery: 'Sex'
         }
     }
 
     render(){
-      /*
-      systemIcon List:
-      bookmarks
-      contacts
-      downloads
-      favorites
-      featured
-      history
-      more
-      "most-recent"
-      "most-viewed"
-      recents
-      search
-      "top-rated"
-      */
+
       return (
         <TabBarIOS style={styles.AppContainer}>
 
@@ -59,7 +46,10 @@ class AppContainer extends Component {
                 }}
                 initialRoute={{
                     component: Movies,
-                    title: 'Movies'
+                    title: 'Movies',
+                    passProps: {
+                        searchQuery: 'Sex'
+                    }
                 }}
            />
         </TabBarIOS.Item>
@@ -85,6 +75,22 @@ class AppContainer extends Component {
       );
     }
 }
+
+/*
+systemIcon List:
+bookmarks
+contacts
+downloads
+favorites
+featured
+history
+more
+"most-recent"
+"most-viewed"
+recents
+search
+"top-rated"
+*/
 
 const styles = StyleSheet.create({
     AppContainer: {
