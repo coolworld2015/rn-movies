@@ -48,6 +48,7 @@ class Search extends Component {
             <ScrollView>
             <View style={styles.container}>
           			<TouchableHighlight
+                    onPress={this.clearSearch.bind(this)}
                     style={styles.button}>
                     <Text style={styles.buttonText}>Search movies</Text>
                 </TouchableHighlight>
@@ -56,6 +57,7 @@ class Search extends Component {
                       searchQuery: text,
                       invalidValue: false
                     })}
+                    value={this.state.searchQuery}
                     style={styles.loginInput}
                     placeholder="Search movies">
                 </TextInput>
@@ -78,6 +80,14 @@ class Search extends Component {
             </View>
              </ScrollView>
         )
+    }
+
+    clearSearch(){
+      console.log(1111);
+      this.setState({
+        searchQuery: '',
+        invalidValue: false
+      })
     }
 
     onSearchPressed(){
