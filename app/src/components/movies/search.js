@@ -83,7 +83,6 @@ class Search extends Component {
     }
 
     clearSearch(){
-      console.log(1111);
       this.setState({
         searchQuery: '',
         invalidValue: false
