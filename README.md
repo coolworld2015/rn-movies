@@ -1,5 +1,5 @@
 # RN Movies
-git clone https://github.com/coolworld2015/rx-movies.git
+git clone https://github.com/coolworld2015/rn-movies.git
 -------------------------------------------------------------------------------------------------
 git config --global user.name "coolworld2015"
 -------------------------------------------------------------------------------------------------
