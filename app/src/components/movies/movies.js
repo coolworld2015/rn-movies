@@ -28,7 +28,6 @@ class Movies extends Component {
 console.log(props);
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            //searchQuery: 'Sex',
             searchQuery: props.searchQuery,
             showProgress: true,
 						resultsCount: 0
@@ -54,12 +53,6 @@ console.log(props);
                resultsCount: responseData.results.length,
                responseData: responseData.results
              });
-         /*
-         this.props.navigator.replace({
-               component: Movies,
-               title: this.state.resultsCount
-             });
-				*/
        })
          .catch((error)=> {
              this.setState({
@@ -77,10 +70,6 @@ console.log(props);
         this.props.navigator.push({
             title: rowData.trackName,
             component: MoviesDetails,
-            rightButtonTitle: 'Cancel',
-            onRightButtonPress: () => {
-                this.props.navigator.pop()
-            },
             passProps: {
                 pushEvent: rowData
             }

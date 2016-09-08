@@ -100,10 +100,6 @@ class Search extends Component {
         this.props.navigator.push({
             title: this.state.searchQuery,
             component: Movies,
-            rightButtonTitle: 'Cancel',
-            onRightButtonPress: () => {
-                this.props.navigator.pop()
-            },
             passProps: {
                 searchQuery: this.state.searchQuery
             }
@@ -113,7 +109,6 @@ class Search extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        //ackgroundColor: '#F5FCFF',
         padding: 10,
         alignItems: 'center',
         flex: 1,
