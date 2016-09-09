@@ -14,7 +14,8 @@ import {
     TabBarIOS,
     NavigatorIOS,
     TextInput,
-    AsyncStorage
+    AsyncStorage,
+    Alert
 } from 'react-native';
 
 import MoviesDetails from './moviesDetails';
@@ -98,10 +99,48 @@ console.log(json);
         return 0;
     }
 
+    deleteMovie(id) {
+      var movies = [];
+
+      AsyncStorage.getItem('rn-movies.movies')
+        .then(req => JSON.parse(req))
+        .then(json => {
+
+          movies = [].concat(json);
+
+  console.log(movies);
+          for (var i = 0; i < movies.length; i++) {
+              if (movies[i].trackId == id) {
+                  movies.splice(i, 1);
+                  break;
+              }
+          }
+
+          AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+            .then(json => this.props.navigator.pop());
+
+        })
+        .catch(error => console.log(error))
+    }
+
     pressRow(rowData){
         this.props.navigator.push({
             title: rowData.trackName,
             component: MoviesDetails,
+            rightButtonTitle: 'Delete',
+            onRightButtonPress: () => {
+              Alert.alert(
+                'Delete',
+                'Are you sure you want to delete ' + rowData.trackName + '?',
+                [
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                  {text: 'OK', onPress: () => {
+                    this.deleteMovie(rowData.trackId);
+                    }
+                  },
+                ]
+              );
+            },
             passProps: {
                 pushEvent: rowData
             }
@@ -143,7 +182,7 @@ console.log(json);
             serverError: false,
             resultsCount: event.nativeEvent.contentOffset.y
         });
-        setTimeout(() => {this.getMovies()}, 300);
+        setTimeout(() => {this.getFavoritesMovies()}, 300);
       }
     }
 
