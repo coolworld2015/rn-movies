@@ -13,7 +13,9 @@ import {
     ActivityIndicator,
     TabBarIOS,
     NavigatorIOS,
-    TextInput
+    TextInput,
+    AsyncStorage,
+    Alert
 } from 'react-native';
 
 class MoviesDetails extends Component {
@@ -24,6 +26,35 @@ class MoviesDetails extends Component {
             pushEvent: props.pushEvent
         };
     }
+
+  localStorageInsert() {
+    var movies = [];
+
+    AsyncStorage.getItem('rn-movies.movies')
+      .then(req => JSON.parse(req))
+      .then(json => {
+
+        Alert.alert(
+          'Alert',
+          json[json.length-1].trackName.toString()
+        )
+
+        movies = [].concat(json);
+        movies.push(this.state.pushEvent);
+
+console.log(movies);
+
+        AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+          .then(json => this.props.navigator.pop());
+
+      })
+      .catch(error => console.log(error))
+
+      movies.push(this.state.pushEvent);
+
+      AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+        .then(json => this.props.navigator.pop());
+  }
 
   render() {
     return (
@@ -73,6 +104,12 @@ class MoviesDetails extends Component {
             {this.state.pushEvent.longDescription}
           </Text>
 
+          <TouchableHighlight
+              onPress={this.localStorageInsert.bind(this)}
+              style={styles.button}>
+              <Text style={styles.buttonText}>Favorites</Text>
+          </TouchableHighlight>
+
         </View>
       </ScrollView>
     );
@@ -119,6 +156,7 @@ const styles = StyleSheet.create({
     },
     button: {
         height: 50,
+        margin: 10,
         backgroundColor: '#48BBEC',
         borderColor: '#48BBEC',
         alignSelf: 'stretch',

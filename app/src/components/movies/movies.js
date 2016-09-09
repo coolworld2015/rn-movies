@@ -25,7 +25,7 @@ class Movies extends Component {
         var ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2
         });
-console.log(props);
+
         this.state = {
             dataSource: ds.cloneWithRows([]),
             searchQuery: props.searchQuery,
@@ -47,7 +47,6 @@ console.log(props);
           })
           .then((response)=> response.json())
           .then((responseData)=> {
-						 console.log(responseData.results)
              this.setState({
                dataSource: this.state.dataSource.cloneWithRows(responseData.results),
                resultsCount: responseData.results.length,
