@@ -46,7 +46,7 @@ class AppContainer extends Component {
                 }}
                 initialRoute={{
                     component: Movies,
-                    title: 'Movies',
+                    title: 'Favorites',
                     passProps: {
                         searchQuery: 'Sex'
                     }

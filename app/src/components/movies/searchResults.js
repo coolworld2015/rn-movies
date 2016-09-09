@@ -13,13 +13,12 @@ import {
     ActivityIndicator,
     TabBarIOS,
     NavigatorIOS,
-    TextInput,
-    AsyncStorage
+    TextInput
 } from 'react-native';
 
 import MoviesDetails from './moviesDetails';
 
-class Movies extends Component {
+class SearchResults extends Component {
     constructor(props){
         super(props);
 
@@ -34,33 +33,10 @@ class Movies extends Component {
 						resultsCount: 0
         };
 
-      	this.getFavoritesMovies();
+      	this.getMovies();
     }
 
-    getFavoritesMovies() {
-      var movies = [];
-
-      AsyncStorage.getItem('rn-movies.movies')
-        .then(req => JSON.parse(req))
-        .then(json => {
-          json.pop();
-console.log(json);
-
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(json),
-            resultsCount: json.length,
-            responseData: json
-          });
-        })
-        .catch(error => console.log(error))
-        .finally(()=> {
-          this.setState({
-            showProgress: false
-          });
-       });
-    }
-
-    getMovies() {
+    getMovies(){
        fetch('https://itunes.apple.com/search?media=movie&term='
              + this.state.searchQuery, {
             method: 'get',
@@ -71,7 +47,6 @@ console.log(json);
           })
           .then((response)=> response.json())
           .then((responseData)=> {
-            console.log(responseData.results);
              this.setState({
                dataSource: this.state.dataSource.cloneWithRows(responseData.results),
                resultsCount: responseData.results.length,
@@ -244,4 +219,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = Movies;
+module.exports = SearchResults;

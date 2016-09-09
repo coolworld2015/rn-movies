@@ -16,7 +16,7 @@ import {
     TextInput
 } from 'react-native';
 
-import Movies from './movies';
+import SearchResults from './searchResults';
 
 class Search extends Component {
     constructor(props){
@@ -25,6 +25,30 @@ class Search extends Component {
         this.state = {
             showProgress: false
         }
+    }
+
+    clearSearch(){
+      this.setState({
+        searchQuery: '',
+        invalidValue: false
+      })
+    }
+
+    onSearchPressed(){
+        if (this.state.searchQuery == undefined) {
+          this.setState({
+              invalidValue: true
+          });
+        return;
+        }
+
+        this.props.navigator.push({
+            title: this.state.searchQuery,
+            component: SearchResults,
+            passProps: {
+                searchQuery: this.state.searchQuery
+            }
+        });
     }
 
     render(){
@@ -80,30 +104,6 @@ class Search extends Component {
             </View>
              </ScrollView>
         )
-    }
-
-    clearSearch(){
-      this.setState({
-        searchQuery: '',
-        invalidValue: false
-      })
-    }
-
-    onSearchPressed(){
-        if (this.state.searchQuery == undefined) {
-          this.setState({
-              invalidValue: true
-          });
-        return;
-        }
-
-        this.props.navigator.push({
-            title: this.state.searchQuery,
-            component: Movies,
-            passProps: {
-                searchQuery: this.state.searchQuery
-            }
-        });
     }
 }
 
