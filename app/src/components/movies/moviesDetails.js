@@ -34,26 +34,22 @@ class MoviesDetails extends Component {
       .then(req => JSON.parse(req))
       .then(json => {
 
-        Alert.alert(
-          'Alert',
-          json[json.length-1].trackName.toString()
-        )
+        // Alert.alert(
+        //   'Alert',
+        //   json[json.length-1].trackName.toString()
+        // )
 
         movies = [].concat(json);
         movies.push(this.state.pushEvent);
-
 console.log(movies);
-
         AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
           .then(json => this.props.navigator.pop());
 
       })
       .catch(error => console.log(error))
 
-      movies.push(this.state.pushEvent);
-
-      AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
-        .then(json => this.props.navigator.pop());
+      // AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+      //   .then(json => this.props.navigator.pop());
   }
 
   render() {
@@ -107,7 +103,7 @@ console.log(movies);
           <TouchableHighlight
               onPress={this.localStorageInsert.bind(this)}
               style={styles.button}>
-              <Text style={styles.buttonText}>Favorites</Text>
+              <Text style={styles.buttonText}>Add to favorites</Text>
           </TouchableHighlight>
 
         </View>

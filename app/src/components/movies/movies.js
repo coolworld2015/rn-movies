@@ -38,16 +38,14 @@ class Movies extends Component {
     }
 
     getFavoritesMovies() {
-      var movies = [];
-
       AsyncStorage.getItem('rn-movies.movies')
         .then(req => JSON.parse(req))
         .then(json => {
-          json.pop();
+
 console.log(json);
 
           this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(json),
+            dataSource: this.state.dataSource.cloneWithRows(json.sort(this.sort)),
             resultsCount: json.length,
             responseData: json
           });
@@ -71,7 +69,6 @@ console.log(json);
           })
           .then((response)=> response.json())
           .then((responseData)=> {
-            console.log(responseData.results);
              this.setState({
                dataSource: this.state.dataSource.cloneWithRows(responseData.results),
                resultsCount: responseData.results.length,
@@ -88,6 +85,17 @@ console.log(json);
              showProgress: false
            });
  				});
+    }
+
+    sort(a, b) {
+        var nameA = a.trackName.toLowerCase(), nameB = b.trackName.toLowerCase();
+        if (nameA < nameB) {
+            return -1
+        }
+        if (nameA > nameB) {
+            return 1
+        }
+        return 0;
     }
 
     pressRow(rowData){
