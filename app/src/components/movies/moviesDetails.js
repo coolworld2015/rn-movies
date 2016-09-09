@@ -33,15 +33,12 @@ class MoviesDetails extends Component {
     AsyncStorage.getItem('rn-movies.movies')
       .then(req => JSON.parse(req))
       .then(json => {
-
-        // Alert.alert(
-        //   'Alert',
-        //   json[json.length-1].trackName.toString()
-        // )
-
         movies = [].concat(json);
         movies.push(this.state.pushEvent);
+
+        if (movies[0] == null) {movies.shift()} // Hack !!!
 console.log(movies);
+
         AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
           .then(json => this.props.navigator.pop());
 

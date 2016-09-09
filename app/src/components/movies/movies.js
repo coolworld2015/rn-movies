@@ -44,6 +44,7 @@ class Movies extends Component {
         .then(json => {
 
 console.log(json);
+        //if (json[0] == null) {json.shift()} // Hack !!!
 
           this.setState({
             dataSource: this.state.dataSource.cloneWithRows(json.sort(this.sort)),
@@ -180,7 +181,7 @@ console.log(json);
         this.setState({
             showProgress: true,
             serverError: false,
-            resultsCount: event.nativeEvent.contentOffset.y
+            //resultsCount: event.nativeEvent.contentOffset.y
         });
         setTimeout(() => {this.getFavoritesMovies()}, 300);
       }
