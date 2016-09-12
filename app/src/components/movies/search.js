@@ -13,7 +13,8 @@ import {
     ActivityIndicator,
     TabBarIOS,
     NavigatorIOS,
-    TextInput
+    TextInput,
+    Switch
 } from 'react-native';
 
 import SearchResults from './searchResults';
@@ -23,7 +24,9 @@ class Search extends Component {
         super(props);
 
         this.state = {
-            showProgress: false
+            showProgress: false,
+            eventSwitchBase: true,
+            eventSwitchTitle: true
         }
     }
 
@@ -76,6 +79,45 @@ class Search extends Component {
                     style={styles.button}>
                     <Text style={styles.buttonText}>Search movies</Text>
                 </TouchableHighlight>
+
+              <View style={styles.loginInput}>
+                <Text style={{
+                    fontSize: 18
+                }}>
+                    Search in iTunes
+                    <Switch
+                      style={{
+                        marginLeft: 90,
+                        paddingLeft: 20,
+                        marginTop: 5
+                      }}
+                      onValueChange={(value) => this.setState({
+                          eventSwitchBase: value
+                      })}
+                      value={this.state.eventSwitchBase}
+                    />
+                  </Text>
+                </View>
+
+                <View style={styles.loginInput}>
+                  <Text style={{
+                      fontSize: 18
+                  }}>
+                      Search by title
+                      <Switch
+                        style={{
+                          marginLeft: 105,
+                          paddingLeft: 20,
+                          marginTop: 5
+                        }}
+                        onValueChange={(value) => this.setState({
+                            eventSwitchTitle: value
+                        })}
+                        value={this.state.eventSwitchTitle}
+                      />
+                    </Text>
+                  </View>
+
           			<TextInput
                     onChangeText={(text)=> this.setState({
                       searchQuery: text,
@@ -83,7 +125,7 @@ class Search extends Component {
                     })}
                     value={this.state.searchQuery}
                     style={styles.loginInput}
-                    placeholder="Search movies">
+                    placeholder="Search title">
                 </TextInput>
 
                 {validCtrl}
@@ -91,7 +133,7 @@ class Search extends Component {
                 <TouchableHighlight
                     onPress={this.onSearchPressed.bind(this)}
                     style={styles.button}>
-                    <Text style={styles.buttonText}>Search</Text>
+                    <Text style={styles.buttonText}>Submit</Text>
                 </TouchableHighlight>
 
                 {errorCtrl}
@@ -112,7 +154,7 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         flex: 1,
-        marginTop: 10
+        marginTop: 0
     },
     loginInput1: {
         height: 50,
@@ -132,7 +174,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#48BBEC',
         borderRadius: 0,
-        color: 'gray'
+        color: 'gray',
+        alignSelf: 'stretch'
     },
     button: {
         height: 50,
@@ -150,6 +193,11 @@ const styles = StyleSheet.create({
     },
     loader: {
         marginTop: 20
+    },
+    welcome: {
+      fontSize: 18,
+      textAlign: 'center',
+      margin: 10,
     },
     error: {
         color: 'red',
