@@ -231,7 +231,7 @@ console.log(json);
 						 resultsCount: items.length,
 					  })
           }}
-          placeholder="Search">
+          placeholder="Search here">
               </TextInput>
 
           	{errorCtrl}

@@ -18,7 +18,7 @@ import {
     Alert
 } from 'react-native';
 
-class MoviesDetails extends Component {
+class SearchDetails extends Component {
     constructor(props){
         super(props);
 
@@ -26,6 +26,28 @@ class MoviesDetails extends Component {
             pushEvent: props.pushEvent
         };
     }
+
+  localStorageInsert() {
+    var movies = [];
+
+    AsyncStorage.getItem('rn-movies.movies')
+      .then(req => JSON.parse(req))
+      .then(json => {
+        movies = [].concat(json);
+        movies.push(this.state.pushEvent);
+
+        if (movies[0] == null) {movies.shift()} // Hack !!!
+console.log(movies);
+
+        AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+          .then(json => this.props.navigator.pop());
+
+      })
+      .catch(error => console.log(error))
+
+      // AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+      //   .then(json => this.props.navigator.pop());
+  }
 
   render() {
     return (
@@ -74,6 +96,12 @@ class MoviesDetails extends Component {
           }}>
             {this.state.pushEvent.longDescription}
           </Text>
+
+          <TouchableHighlight
+              onPress={this.localStorageInsert.bind(this)}
+              style={styles.button}>
+              <Text style={styles.buttonText}>Add to favorites</Text>
+          </TouchableHighlight>
 
         </View>
       </ScrollView>
@@ -143,4 +171,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = MoviesDetails;
+module.exports = SearchDetails;

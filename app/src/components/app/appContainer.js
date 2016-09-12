@@ -16,7 +16,7 @@ import {
     TextInput
 } from 'react-native';
 
-import Search from '../movies/search';
+import Search from '../search/search';
 import Movies from '../movies/movies';
 
 class AppContainer extends Component {
