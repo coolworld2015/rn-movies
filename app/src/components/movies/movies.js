@@ -221,14 +221,17 @@ console.log(json);
 					  borderRadius: 0,
 					}}
 				  onChangeText={(text)=> {
+            if (this.state.responseData == undefined) {
+              return;
+            }
 					  var arr = [].concat(this.state.responseData);
 					  var items = arr.filter((el) => el.trackName.indexOf(text) >= 0);
 					  this.setState({
 						 dataSource: this.state.dataSource.cloneWithRows(items),
 						 resultsCount: items.length,
 					  })
-                }}
-                placeholder="Search">
+          }}
+          placeholder="Search">
               </TextInput>
 
           	{errorCtrl}
