@@ -47,16 +47,19 @@ class SearchIMDB extends Component {
           })
           .then((response)=> response.json())
           .then((responseData)=> {
-            var arr = [];
-            arr.push(responseData);
-
-            arr[0].pic = responseData.Poster;
-            arr[0].trackName = responseData.Title;
-            arr[0].releaseDate = responseData.Year;
-            arr[0].country = responseData.Country;
-            arr[0].primaryGenreName = responseData.Genre;
-            arr[0].artistName = responseData.Director;
-
+            if (responseData.Response == 'False') {
+              var arr = [];
+            } else {
+              var arr = [];
+              arr.push(responseData);
+              arr[0].pic = responseData.Poster;
+              arr[0].trackName = responseData.Title;
+              arr[0].releaseDate = responseData.Year;
+              arr[0].country = responseData.Country;
+              arr[0].primaryGenreName = responseData.Genre;
+              arr[0].artistName = responseData.Director;
+              arr[0].longDescription = responseData.Plot;
+            }
             console.log(arr);
              this.setState({
                dataSource: this.state.dataSource.cloneWithRows(arr),

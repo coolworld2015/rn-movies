@@ -117,11 +117,11 @@ class SearchResults extends Component {
     render(){
       var errorCtrl = <View />;
 
-        if(this.state.serverError){
-            errorCtrl = <Text style={styles.error}>
-                Something went wrong.
-            </Text>;
-        }
+      if(this.state.serverError){
+          errorCtrl = <Text style={styles.error}>
+              Something went wrong.
+          </Text>;
+      }
 
       if(this.state.showProgress){
         return (

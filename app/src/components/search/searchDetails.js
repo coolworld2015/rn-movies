@@ -50,6 +50,30 @@ console.log(movies);
   }
 
   render() {
+    var image = <View />;
+
+    if(this.state.pushEvent.artworkUrl100){
+        image = <Image
+                source={{uri: this.state.pushEvent.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
+                style={{
+                   height: 300,
+                   width: 200,
+                   borderRadius: 20,
+                   margin: 20
+                  }}
+              />;
+    } else {
+      image = <Image
+              source={{uri: this.state.pushEvent.pic}}
+              style={{
+                 height: 300,
+                 width: 200,
+                 borderRadius: 20,
+                 margin: 20
+                }}
+            />;
+    }
+
     return (
       <ScrollView>
         <View style={{
@@ -59,15 +83,7 @@ console.log(movies);
             alignItems: 'center'
         }}>
 
-       <Image
-        source={{uri: this.state.pushEvent.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
-        style={{
-           height: 300,
-           width: 200,
-           borderRadius: 20,
-           margin: 20
-          }}
-      />
+          {image}
 
           <Text style={styles.welcome}>
             {this.state.pushEvent.trackName}
