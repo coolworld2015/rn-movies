@@ -106,59 +106,83 @@ class Search extends Component {
                     <Text style={styles.buttonText}>Search movies</Text>
                 </TouchableHighlight>
 
-              <View style={{
-                height: 50,
-                marginTop: 10,
-                padding: 4,
-                borderWidth: 1,
-                borderColor: '#48BBEC',
-                alignSelf: 'stretch'
-              }}>
-                <Text style={{
-                    fontSize: 18
+                <View style={{
+                  height: 50,
+                  marginTop: 10,
+                  padding: 10,
+                  borderWidth: 1,
+                  borderColor: '#48BBEC',
+                  alignSelf: 'stretch',
+                  flex: 1,
+                  flexDirection: 'row'
                 }}>
-                    {this.state.textSwitchBase}
-                    <Switch
+                  <View
+                    style={{
+                      marginTop: 3
+                    }}>
+                      <Text style={{
+                          fontSize: 18,
+                        }}>
+                          {this.state.textSwitchBase}
+                      </Text>
+                    </View>
+
+                    <View
                       style={{
-                        marginLeft: 90,
-                        paddingLeft: 20,
-                        marginTop: 10
-                      }}
-                      onValueChange={(value) => {
-                          this.toggleTypeChange();
-                          this.setState({
-                            eventSwitchBase: value
-                          });
-                        }}
-                      value={this.state.eventSwitchBase}
-                    />
-                  </Text>
-                </View>
+                        marginTop: -1
+                      }}>
+                        <Switch
+                          style={{
+                            marginLeft: 90,
+                            paddingLeft: 20,
+                          }}
+                          onValueChange={(value) => {
+                              this.toggleTypeChange();
+                              this.setState({
+                                eventSwitchBase: value
+                              });
+                            }}
+                          value={this.state.eventSwitchBase}
+                        />
+                    </View>
+                  </View>
 
                 <View style={{
                   height: 50,
                   marginTop: 10,
-                  padding: 4,
+                  padding: 10,
                   borderWidth: 1,
                   borderColor: '#48BBEC',
-                  alignSelf: 'stretch'
+                  alignSelf: 'stretch',
+                  flex: 1,
+                  flexDirection: 'row'
                 }}>
-                  <Text style={{
-                      fontSize: 18
-                  }}>
-                      Search by title
-                      <Switch
-                        style={{
-                          marginLeft: 105,
-                          paddingLeft: 20,
-                          marginTop: 5
-                        }}
-                        onValueChange={(value) => this.setState({
-                            eventSwitchTitle: value
-                        })}
-                        value={this.state.eventSwitchTitle}
-                      />
-                    </Text>
+                  <View
+                    style={{
+                      marginTop: 3
+                    }}>
+                      <Text style={{
+                          fontSize: 18,
+                        }}>
+                          Search by title
+                      </Text>
+                    </View>
+
+                    <View
+                      style={{
+                        marginTop: -1
+                      }}>
+                        <Switch
+                          style={{
+                            marginLeft: 105,
+                            paddingLeft: 20,
+                          }}
+                          onValueChange={(value) => this.setState({
+                              eventSwitchTitle: value
+                          })}
+                          value={this.state.eventSwitchTitle}
+                        />
+                    </View>
                   </View>
 
           			<TextInput
@@ -168,7 +192,7 @@ class Search extends Component {
                     })}
                     value={this.state.searchQuery}
                     style={styles.loginInput}
-                    placeholder="Search title">
+                    placeholder="Search by title">
                 </TextInput>
 
                 {validCtrl}
