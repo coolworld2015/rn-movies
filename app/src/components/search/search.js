@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 
 import SearchResults from './searchResults';
+import SearchIMDB from './searchIMDB';
 
 class Search extends Component {
     constructor(props){
@@ -47,13 +48,24 @@ class Search extends Component {
         return;
         }
 
+      if (this.state.eventSwitchBase) {
         this.props.navigator.push({
             title: this.state.searchQuery,
             component: SearchResults,
             passProps: {
                 searchQuery: this.state.searchQuery
             }
-        });
+        })
+      } else {
+        this.props.navigator.push({
+            title: this.state.searchQuery,
+            component: SearchIMDB,
+            passProps: {
+                searchQuery: this.state.searchQuery
+            }
+        })
+      }
+
     }
 
     toggleTypeChange(){
@@ -94,7 +106,14 @@ class Search extends Component {
                     <Text style={styles.buttonText}>Search movies</Text>
                 </TouchableHighlight>
 
-              <View style={styles.loginInput}>
+              <View style={{
+                height: 50,
+                marginTop: 10,
+                padding: 4,
+                borderWidth: 1,
+                borderColor: '#48BBEC',
+                alignSelf: 'stretch'
+              }}>
                 <Text style={{
                     fontSize: 18
                 }}>
@@ -103,7 +122,7 @@ class Search extends Component {
                       style={{
                         marginLeft: 90,
                         paddingLeft: 20,
-                        marginTop: 5
+                        marginTop: 10
                       }}
                       onValueChange={(value) => {
                           this.toggleTypeChange();
@@ -116,7 +135,14 @@ class Search extends Component {
                   </Text>
                 </View>
 
-                <View style={styles.loginInput}>
+                <View style={{
+                  height: 50,
+                  marginTop: 10,
+                  padding: 4,
+                  borderWidth: 1,
+                  borderColor: '#48BBEC',
+                  alignSelf: 'stretch'
+                }}>
                   <Text style={{
                       fontSize: 18
                   }}>

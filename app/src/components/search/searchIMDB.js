@@ -18,7 +18,7 @@ import {
 
 import SearchDetails from './searchDetails';
 
-class SearchResults extends Component {
+class SearchIMDB extends Component {
     constructor(props){
         super(props);
 
@@ -37,8 +37,8 @@ class SearchResults extends Component {
     }
 
     getMovies(){
-       fetch('https://itunes.apple.com/search?media=movie&term='
-             + this.state.searchQuery, {
+       fetch('http://www.omdbapi.com/?t='
+             + this.state.searchQuery + '&plot=full', {
             method: 'get',
             headers: {
               'Accept': 'application/json',
@@ -47,10 +47,21 @@ class SearchResults extends Component {
           })
           .then((response)=> response.json())
           .then((responseData)=> {
+            var arr = [];
+            arr.push(responseData);
+
+            arr[0].pic = responseData.Poster;
+            arr[0].trackName = responseData.Title;
+            arr[0].releaseDate = responseData.Year;
+            arr[0].country = responseData.Country;
+            arr[0].primaryGenreName = responseData.Genre;
+            arr[0].artistName = responseData.Director;
+
+            console.log(arr);
              this.setState({
-               dataSource: this.state.dataSource.cloneWithRows(responseData.results),
-               resultsCount: responseData.results.length,
-               responseData: responseData.results
+               dataSource: this.state.dataSource.cloneWithRows(arr),
+               resultsCount: arr.length,
+               responseData: arr
              });
        })
          .catch((error)=> {
@@ -83,7 +94,7 @@ class SearchResults extends Component {
           	>
             <View style={styles.imgsList}>
               <Image
-                  source={{uri: rowData.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
+                  source={{uri: rowData.pic}}
                   style={styles.img}
               />
                 <View style={{
@@ -219,4 +230,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = SearchResults;
+module.exports = SearchIMDB;
