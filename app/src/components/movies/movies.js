@@ -149,16 +149,39 @@ console.log(json);
     }
 
     renderRow(rowData){
+        var image = <View />;
+        if (rowData) {
+          if(rowData.artworkUrl100){
+              image = <Image
+                      source={{uri: rowData.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
+                      style={{
+                        height: 95,
+                        width: 75,
+                        borderRadius: 20,
+                        margin: 20
+                        }}
+                    />;
+          } else {
+            image = <Image
+                    source={{uri: rowData.pic}}
+                    style={{
+                      height: 95,
+                      width: 75,
+                      borderRadius: 20,
+                      margin: 20
+                      }}
+                  />;
+          }
+        }
         return (
           	<TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
                 underlayColor='#ddd'
           	>
             <View style={styles.imgsList}>
-              <Image
-                  source={{uri: rowData.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
-                  style={styles.img}
-              />
+
+                {image}
+
                 <View style={{
                              flex: 1,
                              flexDirection: 'column',
