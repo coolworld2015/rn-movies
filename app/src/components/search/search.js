@@ -26,7 +26,9 @@ class Search extends Component {
         this.state = {
             showProgress: false,
             eventSwitchBase: true,
-            eventSwitchTitle: true
+            eventSwitchTitle: true,
+            textSwitchBase: 'Search in iTunes',
+            textSwitchTitle: 'Search by title'
         }
     }
 
@@ -52,6 +54,18 @@ class Search extends Component {
                 searchQuery: this.state.searchQuery
             }
         });
+    }
+
+    toggleTypeChange(){
+      if (!this.state.eventSwitchBase) {
+        this.setState({
+            textSwitchBase: 'Search in iTunes'
+        });
+      } else {
+        this.setState({
+            textSwitchBase: 'Search in IMDB'
+        });
+      }
     }
 
     render(){
@@ -84,16 +98,19 @@ class Search extends Component {
                 <Text style={{
                     fontSize: 18
                 }}>
-                    Search in iTunes
+                    {this.state.textSwitchBase}
                     <Switch
                       style={{
                         marginLeft: 90,
                         paddingLeft: 20,
                         marginTop: 5
                       }}
-                      onValueChange={(value) => this.setState({
-                          eventSwitchBase: value
-                      })}
+                      onValueChange={(value) => {
+                          this.toggleTypeChange();
+                          this.setState({
+                            eventSwitchBase: value
+                          });
+                        }}
                       value={this.state.eventSwitchBase}
                     />
                   </Text>
