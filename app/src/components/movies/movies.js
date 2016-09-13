@@ -42,10 +42,6 @@ class Movies extends Component {
       AsyncStorage.getItem('rn-movies.movies')
         .then(req => JSON.parse(req))
         .then(json => {
-
-console.log(json);
-        //if (json[0] == null) {json.shift()} // Hack !!!
-
           this.setState({
             dataSource: this.state.dataSource.cloneWithRows(json.sort(this.sort)),
             resultsCount: json.length,

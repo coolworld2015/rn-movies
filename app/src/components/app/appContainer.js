@@ -13,7 +13,8 @@ import {
     ActivityIndicatorIOS,
     TabBarIOS,
     NavigatorIOS,
-    TextInput
+    TextInput,
+    AsyncStorage
 } from 'react-native';
 
 import Search from '../search/search';
@@ -24,12 +25,29 @@ class AppContainer extends Component {
         super(props);
 
         this.state = {
-            selectedTab: 'Movies'
         }
+
+        this.init();
+    }
+
+    init() {
+      AsyncStorage.getItem('rn-movies.movies')
+        .then(req => JSON.parse(req))
+        .then(json => {
+          if (!json || json[0] == null) {
+            this.setState({
+              selectedTab: 'Search'
+            });
+          } else {
+            this.setState({
+              selectedTab: 'Movies'
+            });
+          }
+        })
+        .catch(error => console.log(error))
     }
 
     render(){
-
       return (
         <TabBarIOS style={styles.AppContainer}>
 
