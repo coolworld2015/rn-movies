@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -21,7 +21,7 @@ import SearchResults from './searchResults';
 import SearchIMDB from './searchIMDB';
 
 class Search extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -33,179 +33,179 @@ class Search extends Component {
         }
     }
 
-    clearSearch(){
-      this.setState({
-        searchQuery: '',
-        invalidValue: false
-      })
+    clearSearch() {
+        this.setState({
+            searchQuery: '',
+            invalidValue: false
+        })
     }
 
-    onSearchPressed(){
+    onSearchPressed() {
         if (this.state.searchQuery == undefined) {
-          this.setState({
-              invalidValue: true
-          });
-        return;
+            this.setState({
+                invalidValue: true
+            });
+            return;
         }
 
-      if (this.state.eventSwitchBase) {
-        this.props.navigator.push({
-            title: this.state.searchQuery,
-            component: SearchResults,
-            passProps: {
-                searchQuery: this.state.searchQuery
-            }
-        })
-      } else {
-        this.props.navigator.push({
-            title: this.state.searchQuery,
-            component: SearchIMDB,
-            passProps: {
-                searchQuery: this.state.searchQuery
-            }
-        })
-      }
+        if (this.state.eventSwitchBase) {
+            this.props.navigator.push({
+                title: this.state.searchQuery,
+                component: SearchResults,
+                passProps: {
+                    searchQuery: this.state.searchQuery
+                }
+            })
+        } else {
+            this.props.navigator.push({
+                title: this.state.searchQuery,
+                component: SearchIMDB,
+                passProps: {
+                    searchQuery: this.state.searchQuery
+                }
+            })
+        }
 
     }
 
-    toggleTypeChange(){
-      if (!this.state.eventSwitchBase) {
-        this.setState({
-            textSwitchBase: 'Search in iTunes'
-        });
-      } else {
-        this.setState({
-            textSwitchBase: 'Search in IMDB'
-        });
-      }
+    toggleTypeChange() {
+        if (!this.state.eventSwitchBase) {
+            this.setState({
+                textSwitchBase: 'Search in iTunes'
+            });
+        } else {
+            this.setState({
+                textSwitchBase: 'Search in IMDB'
+            });
+        }
     }
 
-    render(){
-      var errorCtrl = <View />;
+    render() {
+        var errorCtrl = <View />;
 
-      if(this.state.serverError){
-          errorCtrl = <Text style={styles.error}>
-              Something went wrong.
-          </Text>;
-      }
+        if (this.state.serverError) {
+            errorCtrl = <Text style={styles.error}>
+                Something went wrong.
+            </Text>;
+        }
 
-      var validCtrl = <View />;
+        var validCtrl = <View />;
 
-      if(this.state.invalidValue){
-          validCtrl = <Text style={styles.error}>
-              Value required - please provide.
-          </Text>;
-      }
+        if (this.state.invalidValue) {
+            validCtrl = <Text style={styles.error}>
+                Value required - please provide.
+            </Text>;
+        }
 
         return (
             <ScrollView>
-            <View style={styles.container}>
-          			<TouchableHighlight
-                    onPress={this.clearSearch.bind(this)}
-                    style={styles.button}>
-                    <Text style={styles.buttonText}>Search movies</Text>
-                </TouchableHighlight>
+                <View style={styles.container}>
+                    <TouchableHighlight
+                        onPress={this.clearSearch.bind(this)}
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Search movies</Text>
+                    </TouchableHighlight>
 
-                <View style={{
-                  height: 50,
-                  marginTop: 10,
-                  padding: 10,
-                  borderWidth: 1,
-                  borderColor: '#48BBEC',
-                  alignSelf: 'stretch',
-                  flex: 1,
-                  flexDirection: 'row'
-                }}>
-                  <View
-                    style={{
-                      marginTop: 3,
-                      flex: 1
+                    <View style={{
+                        height: 50,
+                        marginTop: 10,
+                        padding: 10,
+                        borderWidth: 1,
+                        borderColor: '#48BBEC',
+                        alignSelf: 'stretch',
+                        flex: 1,
+                        flexDirection: 'row'
                     }}>
-                      <Text style={{
-                          fontSize: 18,
-                        }}>
-                          {this.state.textSwitchBase}
-                      </Text>
+                        <View
+                            style={{
+                                marginTop: 3,
+                                flex: 1
+                            }}>
+                            <Text style={{
+                                fontSize: 18,
+                            }}>
+                                {this.state.textSwitchBase}
+                            </Text>
+                        </View>
+
+                        <View
+                            style={{
+                                marginTop: -1
+                            }}>
+                            <Switch
+                                onValueChange={(value) => {
+                                    this.toggleTypeChange();
+                                    this.setState({
+                                        eventSwitchBase: value
+                                    });
+                                }}
+                                value={this.state.eventSwitchBase}
+                            />
+                        </View>
                     </View>
 
-                    <View
-                      style={{
-                        marginTop: -1
-                      }}>
-                        <Switch
-                          onValueChange={(value) => {
-                              this.toggleTypeChange();
-                              this.setState({
-                                eventSwitchBase: value
-                              });
-                            }}
-                          value={this.state.eventSwitchBase}
-                        />
-                    </View>
-                  </View>
-
-                <View style={{
-                  height: 50,
-                  marginTop: 10,
-                  padding: 10,
-                  borderWidth: 1,
-                  borderColor: '#48BBEC',
-                  alignSelf: 'stretch',
-                  flex: 1,
-                  flexDirection: 'row'
-                }}>
-                  <View
-                    style={{
-                      marginTop: 3,
-                      flex: 1
+                    <View style={{
+                        height: 50,
+                        marginTop: 10,
+                        padding: 10,
+                        borderWidth: 1,
+                        borderColor: '#48BBEC',
+                        alignSelf: 'stretch',
+                        flex: 1,
+                        flexDirection: 'row'
                     }}>
-                      <Text style={{
-                          fontSize: 18,
-                        }}>
-                          Search by title
-                      </Text>
+                        <View
+                            style={{
+                                marginTop: 3,
+                                flex: 1
+                            }}>
+                            <Text style={{
+                                fontSize: 18,
+                            }}>
+                                Search by title
+                            </Text>
+                        </View>
+
+                        <View
+                            style={{
+                                marginTop: -1
+                            }}>
+                            <Switch
+                                onValueChange={(value) => this.setState({
+                                    eventSwitchTitle: value
+                                })}
+                                value={this.state.eventSwitchTitle}
+                            />
+                        </View>
                     </View>
 
-                    <View
-                      style={{
-                        marginTop: -1
-                      }}>
-                        <Switch
-                          onValueChange={(value) => this.setState({
-                              eventSwitchTitle: value
-                          })}
-                          value={this.state.eventSwitchTitle}
-                        />
-                    </View>
-                  </View>
+                    <TextInput
+                        onChangeText={(text)=> this.setState({
+                            searchQuery: text,
+                            invalidValue: false
+                        })}
+                        value={this.state.searchQuery}
+                        style={styles.loginInput}
+                        placeholder="Search by title">
+                    </TextInput>
 
-          			<TextInput
-                    onChangeText={(text)=> this.setState({
-                      searchQuery: text,
-                      invalidValue: false
-                    })}
-                    value={this.state.searchQuery}
-                    style={styles.loginInput}
-                    placeholder="Search by title">
-                </TextInput>
+                    {validCtrl}
 
-                {validCtrl}
+                    <TouchableHighlight
+                        onPress={this.onSearchPressed.bind(this)}
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Submit</Text>
+                    </TouchableHighlight>
 
-                <TouchableHighlight
-                    onPress={this.onSearchPressed.bind(this)}
-                    style={styles.button}>
-                    <Text style={styles.buttonText}>Submit</Text>
-                </TouchableHighlight>
+                    {errorCtrl}
 
-                {errorCtrl}
-
-                <ActivityIndicator
-                    animating={this.state.showProgress}
-                    size="large"
-                    style={styles.loader}
-                 />
-            </View>
-             </ScrollView>
+                    <ActivityIndicator
+                        animating={this.state.showProgress}
+                        size="large"
+                        style={styles.loader}
+                    />
+                </View>
+            </ScrollView>
         )
     }
 }
@@ -256,9 +256,9 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     welcome: {
-      fontSize: 18,
-      textAlign: 'center',
-      margin: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        margin: 10,
     },
     error: {
         color: 'red',
@@ -267,4 +267,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = Search;
+export default Search;

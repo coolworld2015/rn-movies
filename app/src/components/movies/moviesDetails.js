@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 
 class MoviesDetails extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -27,87 +27,87 @@ class MoviesDetails extends Component {
         };
     }
 
-  render() {
-    var image = <View />;
+    render() {
+        var image = <View />;
 
-    if(this.state.pushEvent.artworkUrl100){
-        image = <Image
+        if (this.state.pushEvent.artworkUrl100) {
+            image = <Image
                 source={{uri: this.state.pushEvent.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
                 style={{
-                   height: 300,
-                   width: 200,
-                   borderRadius: 20,
-                   margin: 20
-                  }}
-              />;
-    } else {
-      image = <Image
-              source={{uri: this.state.pushEvent.pic}}
-              style={{
-                 height: 300,
-                 width: 200,
-                 borderRadius: 20,
-                 margin: 20
+                    height: 300,
+                    width: 200,
+                    borderRadius: 20,
+                    margin: 20
                 }}
             />;
+        } else {
+            image = <Image
+                source={{uri: this.state.pushEvent.pic}}
+                style={{
+                    height: 300,
+                    width: 200,
+                    borderRadius: 20,
+                    margin: 20
+                }}
+            />;
+        }
+
+        return (
+            <ScrollView>
+                <View style={{
+                    flex: 1,
+                    paddingTop: 20,
+                    justifyContent: 'flex-start',
+                    alignItems: 'center'
+                }}>
+
+                    {image}
+
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.trackName}
+                    </Text>
+
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.releaseDate.split('-')[0]}
+                    </Text>
+
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.country}
+                    </Text>
+
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.primaryGenreName}
+                    </Text>
+
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.artistName}
+                    </Text>
+
+                    <Text style={{
+                        fontSize: 16,
+                        padding: 20,
+                        textAlign: 'justify'
+                    }}>
+                        {this.state.pushEvent.longDescription}
+                    </Text>
+
+                </View>
+            </ScrollView>
+        );
     }
-
-    return (
-      <ScrollView>
-        <View style={{
-            flex: 1,
-            paddingTop: 20,
-            justifyContent: 'flex-start',
-            alignItems: 'center'
-        }}>
-
-          {image}
-
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.trackName}
-          </Text>
-
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.releaseDate.split('-')[0]}
-          </Text>
-
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.country}
-          </Text>
-
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.primaryGenreName}
-          </Text>
-
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.artistName}
-          </Text>
-
-          <Text style={{
-            fontSize: 16,
-            padding: 20,
-            textAlign: 'justify'
-          }}>
-            {this.state.pushEvent.longDescription}
-          </Text>
-
-        </View>
-      </ScrollView>
-    );
-  }
 }
 
 const styles = StyleSheet.create({
     AppContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
     },
     welcome: {
-      fontSize: 18,
-      textAlign: 'center',
-      margin: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        margin: 10,
     },
     container: {
         backgroundColor: '#F5FCFF',
@@ -159,4 +159,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = MoviesDetails;
+export default MoviesDetails;

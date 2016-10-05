@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 
 class SearchDetails extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -27,115 +27,117 @@ class SearchDetails extends Component {
         };
     }
 
-  localStorageInsert() {
-    var movies = [];
+    localStorageInsert() {
+        var movies = [];
 
-    AsyncStorage.getItem('rn-movies.movies')
-      .then(req => JSON.parse(req))
-      .then(json => {
-        movies = [].concat(json);
-        movies.push(this.state.pushEvent);
+        AsyncStorage.getItem('rn-movies.movies')
+            .then(req => JSON.parse(req))
+            .then(json => {
+                movies = [].concat(json);
+                movies.push(this.state.pushEvent);
 
-        if (movies[0] == null) {movies.shift()} // Hack !!!
-console.log(movies);
+                if (movies[0] == null) {
+                    movies.shift()
+                } // Hack !!!
+                console.log(movies);
 
-        AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
-          .then(json => this.props.navigator.pop());
+                AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+                    .then(json => this.props.navigator.pop());
 
-      })
-      .catch(error => console.log(error))
+            })
+            .catch(error => console.log(error));
 
-      // AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
-      //   .then(json => this.props.navigator.pop());
-  }
-
-  render() {
-    var image = <View />;
-
-    if(this.state.pushEvent.artworkUrl100){
-        image = <Image
-                source={{uri: this.state.pushEvent.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
-                style={{
-                   height: 300,
-                   width: 200,
-                   borderRadius: 20,
-                   margin: 20
-                  }}
-              />;
-    } else {
-      image = <Image
-              source={{uri: this.state.pushEvent.pic}}
-              style={{
-                 height: 300,
-                 width: 200,
-                 borderRadius: 20,
-                 margin: 20
-                }}
-            />;
+        // AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+        //   .then(json => this.props.navigator.pop());
     }
 
-    return (
-      <ScrollView>
-        <View style={{
-            flex: 1,
-            paddingTop: 20,
-            justifyContent: 'flex-start',
-            alignItems: 'center'
-        }}>
+    render() {
+        var image = <View />;
 
-          {image}
+        if (this.state.pushEvent.artworkUrl100) {
+            image = <Image
+                source={{uri: this.state.pushEvent.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
+                style={{
+                    height: 300,
+                    width: 200,
+                    borderRadius: 20,
+                    margin: 20
+                }}
+            />;
+        } else {
+            image = <Image
+                source={{uri: this.state.pushEvent.pic}}
+                style={{
+                    height: 300,
+                    width: 200,
+                    borderRadius: 20,
+                    margin: 20
+                }}
+            />;
+        }
 
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.trackName}
-          </Text>
+        return (
+            <ScrollView>
+                <View style={{
+                    flex: 1,
+                    paddingTop: 20,
+                    justifyContent: 'flex-start',
+                    alignItems: 'center'
+                }}>
 
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.releaseDate.split('-')[0]}
-          </Text>
+                    {image}
 
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.country}
-          </Text>
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.trackName}
+                    </Text>
 
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.primaryGenreName}
-          </Text>
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.releaseDate.split('-')[0]}
+                    </Text>
 
-          <Text style={styles.welcome}>
-            {this.state.pushEvent.artistName}
-          </Text>
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.country}
+                    </Text>
 
-          <Text style={{
-            fontSize: 16,
-            padding: 20,
-            textAlign: 'justify'
-          }}>
-            {this.state.pushEvent.longDescription}
-          </Text>
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.primaryGenreName}
+                    </Text>
 
-          <TouchableHighlight
-              onPress={this.localStorageInsert.bind(this)}
-              style={styles.button}>
-              <Text style={styles.buttonText}>Add to favorites</Text>
-          </TouchableHighlight>
+                    <Text style={styles.welcome}>
+                        {this.state.pushEvent.artistName}
+                    </Text>
 
-        </View>
-      </ScrollView>
-    );
-  }
+                    <Text style={{
+                        fontSize: 16,
+                        padding: 20,
+                        textAlign: 'justify'
+                    }}>
+                        {this.state.pushEvent.longDescription}
+                    </Text>
+
+                    <TouchableHighlight
+                        onPress={this.localStorageInsert.bind(this)}
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Add to favorites</Text>
+                    </TouchableHighlight>
+
+                </View>
+            </ScrollView>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
     AppContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
     },
     welcome: {
-      fontSize: 18,
-      textAlign: 'center',
-      margin: 10,
+        fontSize: 18,
+        textAlign: 'center',
+        margin: 10,
     },
     container: {
         backgroundColor: '#F5FCFF',
@@ -187,4 +189,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = SearchDetails;
+export default SearchDetails;

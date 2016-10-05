@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
@@ -21,106 +21,105 @@ import Search from '../search/search';
 import Movies from '../movies/movies';
 
 class AppContainer extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
-        this.state = {
-        }
+        this.state = {};
 
         this.init();
     }
 
     init() {
-      AsyncStorage.getItem('rn-movies.movies')
-        .then(req => JSON.parse(req))
-        .then(json => {
-          console.log(json);
-          if (json == undefined || json == null || json[0] == null) {
-            this.setState({
-              selectedTab: 'Search'
-            });
-          } else {
-            this.setState({
-              selectedTab: 'Movies'
-            });
-          }
-        })
-        .catch(error => console.log(error))
+        AsyncStorage.getItem('rn-movies.movies')
+            .then(req => JSON.parse(req))
+            .then(json => {
+                console.log(json);
+                if (json == undefined || json == null || json[0] == null) {
+                    this.setState({
+                        selectedTab: 'Search'
+                    });
+                } else {
+                    this.setState({
+                        selectedTab: 'Movies'
+                    });
+                }
+            })
+            .catch(error => console.log(error))
     }
 
-    render(){
-      return (
-        <TabBarIOS style={styles.AppContainer}>
+    render() {
+        return (
+            <TabBarIOS style={styles.AppContainer}>
 
-        <TabBarIOS.Item
-            title="Movies"
-            systemIcon="favorites"
-            selected={this.state.selectedTab == 'Movies'}
-            onPress={()=> this.setState({selectedTab: 'Movies'})}>
+                <TabBarIOS.Item
+                    title="Movies"
+                    systemIcon="favorites"
+                    selected={this.state.selectedTab == 'Movies'}
+                    onPress={()=> this.setState({selectedTab: 'Movies'})}>
 
-            <NavigatorIOS
-                style={{
-                    flex: 1
-                }}
-                initialRoute={{
-                    component: Movies,
-                    title: 'Favorites',
-                    passProps: {
-                        searchQuery: 'Sex'
-                    }
-                }}
-           />
-        </TabBarIOS.Item>
+                    <NavigatorIOS
+                        style={{
+                            flex: 1
+                        }}
+                        initialRoute={{
+                            component: Movies,
+                            title: 'Favorites',
+                            passProps: {
+                                searchQuery: 'Sex'
+                            }
+                        }}
+                    />
+                </TabBarIOS.Item>
 
-            <TabBarIOS.Item
-                title="Search"
-      					systemIcon="search"
-                selected={this.state.selectedTab == 'Search'}
-                onPress={()=> this.setState({selectedTab: 'Search'})}>
+                <TabBarIOS.Item
+                    title="Search"
+                    systemIcon="search"
+                    selected={this.state.selectedTab == 'Search'}
+                    onPress={()=> this.setState({selectedTab: 'Search'})}>
 
-                <NavigatorIOS
-                    style={{
-                        flex: 1
-                    }}
-                    initialRoute={{
-                        component: Search,
-                        title: 'Search'
-                		}}
-               />
-            </TabBarIOS.Item>
+                    <NavigatorIOS
+                        style={{
+                            flex: 1
+                        }}
+                        initialRoute={{
+                            component: Search,
+                            title: 'Search'
+                        }}
+                    />
+                </TabBarIOS.Item>
 
-        </TabBarIOS>
-      );
+            </TabBarIOS>
+        );
     }
 }
 
 /*
-systemIcon List:
-bookmarks
-contacts
-downloads
-favorites
-featured
-history
-more
-"most-recent"
-"most-viewed"
-recents
-search
-"top-rated"
-*/
+ systemIcon List:
+ bookmarks
+ contacts
+ downloads
+ favorites
+ featured
+ history
+ more
+ "most-recent"
+ "most-viewed"
+ recents
+ search
+ "top-rated"
+ */
 
 const styles = StyleSheet.create({
     AppContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
     },
     welcome: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 20,
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 20,
     },
     container: {
         backgroundColor: '#F5FCFF',
@@ -171,4 +170,4 @@ const styles = StyleSheet.create({
     }
 });
 
-module.exports = AppContainer;
+export default AppContainer;
