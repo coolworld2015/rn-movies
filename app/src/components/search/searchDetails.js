@@ -42,13 +42,14 @@ class SearchDetails extends Component {
                 console.log(movies);
 
                 AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
-                    .then(json => this.props.navigator.pop());
+                    .then(json => {
+                            App.movies.refresh = true;
+                            this.props.navigator.pop();
+                        }
+                    );
 
             })
             .catch(error => console.log(error));
-
-        // AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
-        //   .then(json => this.props.navigator.pop());
     }
 
     render() {

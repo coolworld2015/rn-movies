@@ -38,6 +38,18 @@ class Movies extends Component {
         this.getFavoritesMovies();
     }
 
+    componentWillUpdate() {
+        if (App.movies.refresh) {
+            App.movies.refresh = false;
+
+            this.setState({
+                showProgress: true
+            });
+
+            this.getFavoritesMovies();
+        }
+    }
+
     getFavoritesMovies() {
         AsyncStorage.getItem('rn-movies.movies')
             .then(req => JSON.parse(req))
@@ -114,7 +126,11 @@ class Movies extends Component {
                 }
 
                 AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
-                    .then(json => this.props.navigator.pop());
+                    .then(json => {
+                            App.movies.refresh = true;
+                            this.props.navigator.pop();
+                        }
+                    );
 
             })
             .catch(error => console.log(error))

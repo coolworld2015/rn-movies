@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 import React, {Component} from 'react';
 import {
@@ -25,6 +25,12 @@ class AppContainer extends Component {
         super(props);
 
         this.state = {};
+
+        App = {
+            movies: {
+                refresh: false
+            }
+        };
 
         this.init();
     }
