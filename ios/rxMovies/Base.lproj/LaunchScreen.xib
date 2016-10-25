@@ -19,7 +19,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RN Movies" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="blt-mC-X85">
-                    <rect key="frame" x="14" y="68" width="441" height="43"/>
+                    <rect key="frame" x="28" y="68" width="425" height="43"/>
                     <accessibility key="accessibilityConfiguration">
                         <accessibilityTraits key="traits" none="YES"/>
                     </accessibility>
@@ -33,8 +33,8 @@
                 <constraint firstItem="lU9-hQ-Bvw" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="11G-Sr-USx"/>
                 <constraint firstItem="lU9-hQ-Bvw" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="GgW-6Z-gKS"/>
                 <constraint firstItem="blt-mC-X85" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="68" id="UPp-rm-yVo"/>
-                <constraint firstItem="blt-mC-X85" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="14" id="ayq-67-n0C"/>
-                <constraint firstAttribute="trailing" secondItem="blt-mC-X85" secondAttribute="trailing" constant="25" id="q9e-7V-je2"/>
+                <constraint firstAttribute="trailing" secondItem="blt-mC-X85" secondAttribute="trailing" constant="27" id="hM1-K7-HSB"/>
+                <constraint firstItem="blt-mC-X85" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="28" id="naV-sa-nHJ"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
