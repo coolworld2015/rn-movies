@@ -57,41 +57,13 @@ class Movies extends Component {
             .then(req => JSON.parse(req))
             .then(json => {
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(json.sort(this.sort)),
+                    dataSource: this.state.dataSource.cloneWithRows(json.sort(this.sort).slice(0, 5)),
                     resultsCount: json.length,
-                    responseData: json
+                    responseData: json.sort(this.sort),
+                    filteredItems: json.sort(this.sort)
                 });
             })
             .catch(error => console.log(error))
-            .finally(()=> {
-                this.setState({
-                    showProgress: false
-                });
-            });
-    }
-
-    getMovies() {
-        fetch('https://itunes.apple.com/search?media=movie&term='
-            + this.state.searchQuery, {
-            method: 'get',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response)=> response.json())
-            .then((responseData)=> {
-                this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.results.slice(0, 5)),
-                    resultsCount: responseData.results.length,
-                    responseData: responseData.results
-                });
-            })
-            .catch((error)=> {
-                this.setState({
-                    serverError: true
-                });
-            })
             .finally(()=> {
                 this.setState({
                     showProgress: false
@@ -214,24 +186,6 @@ class Movies extends Component {
     }
 
     refreshData(event) {
-        var items, positionY, recordsCount;
-
-        recordsCount = this.state.recordsCount;
-        positionY = this.state.positionY;
-        items = this.state.responseData.slice(0, recordsCount);
-
-        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
-
-        if (event.nativeEvent.contentOffset.y >= positionY - 110) {
-            console.log(items.length);
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(items),
-                recordsCount: recordsCount + 3,
-                positionY: positionY + 380
-            });
-
-        }
-
         if (event.nativeEvent.contentOffset.y <= -100) {
 
             this.setState({
@@ -244,21 +198,28 @@ class Movies extends Component {
                 this.getFavoritesMovies()
             }, 300);
         }
-    }
 
-    // refreshData(event) {
-    //     if (event.nativeEvent.contentOffset.y <= -100) {
-    //
-    //         this.setState({
-    //             showProgress: true,
-    //             serverError: false,
-    //             //resultsCount: event.nativeEvent.contentOffset.y
-    //         });
-    //         setTimeout(() => {
-    //             this.getFavoritesMovies()
-    //         }, 300);
-    //     }
-    // }
+        if (this.state.filteredItems == undefined) {
+            return;
+        }
+        var items, positionY, recordsCount;
+
+        recordsCount = this.state.recordsCount;
+        positionY = this.state.positionY;
+        items = this.state.filteredItems.slice(0, recordsCount);
+
+        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
+
+        if (event.nativeEvent.contentOffset.y >= positionY - 110) {
+            console.log(items.length);
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(items),
+                recordsCount: recordsCount + 3,
+                positionY: positionY + 380
+            });
+
+        }
+    }
 
     render() {
         var errorCtrl = <View />;
@@ -302,6 +263,7 @@ class Movies extends Component {
                                    this.setState({
                                        dataSource: this.state.dataSource.cloneWithRows(items),
                                        resultsCount: items.length,
+                                       filteredItems: items
                                    })
                                }}
                                placeholder="Search here">

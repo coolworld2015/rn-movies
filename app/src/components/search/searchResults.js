@@ -52,7 +52,8 @@ class SearchResults extends Component {
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(responseData.results.slice(0, 5)),
                     resultsCount: responseData.results.length,
-                    responseData: responseData.results
+                    responseData: responseData.results,
+                    filteredItems: responseData.results
                 });
             })
             .catch((error)=> {
@@ -109,7 +110,7 @@ class SearchResults extends Component {
 
         recordsCount = this.state.recordsCount;
         positionY = this.state.positionY;
-        items = this.state.responseData.slice(0, recordsCount);
+        items = this.state.filteredItems.slice(0, recordsCount);
 
         console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
 
@@ -136,20 +137,6 @@ class SearchResults extends Component {
             }, 300);
         }
     }
-
-    // refreshData(event) {
-    //     if (event.nativeEvent.contentOffset.y <= -100) {
-    //
-    //         this.setState({
-    //             showProgress: true,
-    //             serverError: false,
-    //             resultsCount: event.nativeEvent.contentOffset.y
-    //         });
-    //         setTimeout(() => {
-    //             this.getMovies()
-    //         }, 300);
-    //     }
-    // }
 
     render() {
         var errorCtrl = <View />;
@@ -190,6 +177,7 @@ class SearchResults extends Component {
                                    this.setState({
                                        dataSource: this.state.dataSource.cloneWithRows(items),
                                        resultsCount: items.length,
+                                       filteredItems: items
                                    })
                                }}
                                placeholder="Search here">
