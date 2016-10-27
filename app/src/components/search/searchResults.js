@@ -106,6 +106,23 @@ class SearchResults extends Component {
     }
 
     refreshData(event) {
+        if (this.state.showProgress == true) {
+            return;
+        }
+
+        if (event.nativeEvent.contentOffset.y <= -100) {
+
+            this.setState({
+                showProgress: true,
+                resultsCount: 0,
+                recordsCount: 5,
+                positionY: 0
+            });
+            setTimeout(() => {
+                this.getMovies()
+            }, 300);
+        }
+
         var items, positionY, recordsCount;
 
         recordsCount = this.state.recordsCount;
@@ -121,25 +138,11 @@ class SearchResults extends Component {
                 recordsCount: recordsCount + 3,
                 positionY: positionY + 380
             });
-
-        }
-
-        if (event.nativeEvent.contentOffset.y <= -100) {
-
-            this.setState({
-                showProgress: true,
-                resultsCount: 0,
-                recordsCount: 5,
-                positionY: 0
-            });
-            setTimeout(() => {
-                this.getMovies()
-            }, 300);
         }
     }
 
     render() {
-        var errorCtrl = <View />;
+        var errorCtrl, loader;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -148,17 +151,16 @@ class SearchResults extends Component {
         }
 
         if (this.state.showProgress) {
-            return (
-                <View style={{
-                    flex: 1,
-                    justifyContent: 'center'
-                }}>
-                    <ActivityIndicator
-                        size="large"
-                        animating={true}/>
-                </View>
-            );
+            loader = <View style={{
+                justifyContent: 'center',
+                height: 100
+            }}>
+                <ActivityIndicator
+                    size="large"
+                    animating={true}/>
+            </View>;
         }
+
         return (
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginTop: 60}}>
@@ -187,10 +189,12 @@ class SearchResults extends Component {
 
                 </View>
 
+                {loader}
+
                 <ScrollView
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-                    style={{marginTop: 0, marginBottom: 0}}>
+                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
+                        style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />
