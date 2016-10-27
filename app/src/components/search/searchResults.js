@@ -28,7 +28,7 @@ class SearchResults extends Component {
 
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQuery: props.searchQuery,
+            searchQueryHttp: props.searchQuery,
             showProgress: true,
             resultsCount: 0,
             recordsCount: 5,
@@ -40,7 +40,7 @@ class SearchResults extends Component {
 
     getMovies() {
         fetch('https://itunes.apple.com/search?media=movie&term='
-            + this.state.searchQuery, {
+            + this.state.searchQueryHttp, {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -94,7 +94,7 @@ class SearchResults extends Component {
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}>
-                        <Text>{rowData.trackName}</Text>
+                        <Text style={{fontWeight: 'bold'}}>{rowData.trackName}</Text>
                         <Text>{rowData.releaseDate.split('-')[0]}</Text>
                         <Text>{rowData.country}</Text>
                         <Text>{rowData.primaryGenreName}</Text>
@@ -110,21 +110,25 @@ class SearchResults extends Component {
             return;
         }
 
-        if (event.nativeEvent.contentOffset.y <= -100) {
+        if (event.nativeEvent.contentOffset.y <= -150) {
 
             this.setState({
                 showProgress: true,
                 resultsCount: 0,
                 recordsCount: 5,
-                positionY: 0
+                positionY: 0,
+                searchQuery: ''
             });
             setTimeout(() => {
                 this.getMovies()
-            }, 300);
+            }, 100);
+        }
+
+        if (this.state.filteredItems == undefined) {
+            return;
         }
 
         var items, positionY, recordsCount;
-
         recordsCount = this.state.recordsCount;
         positionY = this.state.positionY;
         items = this.state.filteredItems.slice(0, recordsCount);
@@ -139,6 +143,20 @@ class SearchResults extends Component {
                 positionY: positionY + 380
             });
         }
+    }
+
+    onChangeText(text) {
+        if (this.state.responseData == undefined) {
+            return;
+        }
+        var arr = [].concat(this.state.responseData);
+        var items = arr.filter((el) => el.trackName.toLowerCase().indexOf(text.toLowerCase()) >= 0);
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(items),
+            resultsCount: items.length,
+            filteredItems: items,
+            searchQuery: text
+        })
     }
 
     render() {
@@ -173,15 +191,8 @@ class SearchResults extends Component {
                         borderColor: 'lightgray',
                         borderRadius: 0,
                     }}
-                               onChangeText={(text)=> {
-                                   var arr = [].concat(this.state.responseData);
-                                   var items = arr.filter((el) => el.trackName.toLowerCase().indexOf(text.toLowerCase()) >= 0);
-                                   this.setState({
-                                       dataSource: this.state.dataSource.cloneWithRows(items),
-                                       resultsCount: items.length,
-                                       filteredItems: items
-                                   })
-                               }}
+                               onChangeText={this.onChangeText.bind(this)}
+                               value={this.state.searchQuery}
                                placeholder="Search here">
                     </TextInput>
 

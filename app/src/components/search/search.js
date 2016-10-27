@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#48BBEC',
         borderRadius: 0,
-        color: 'gray',
+        color: 'black',
         alignSelf: 'stretch'
     },
     button: {
