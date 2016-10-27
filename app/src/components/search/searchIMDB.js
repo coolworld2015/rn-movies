@@ -28,7 +28,7 @@ class SearchIMDB extends Component {
 
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQuery: props.searchQuery,
+            searchQueryHttp: props.searchQuery,
             showProgress: true,
             resultsCount: 0
         };
@@ -38,7 +38,7 @@ class SearchIMDB extends Component {
 
     getMovies() {
         fetch('http://www.omdbapi.com/?t='
-            + this.state.searchQuery + '&plot=full', {
+            + this.state.searchQueryHttp + '&plot=full', {
             method: 'get',
             headers: {
                 'Accept': 'application/json',
@@ -105,7 +105,7 @@ class SearchIMDB extends Component {
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}>
-                        <Text>{rowData.trackName}</Text>
+                        <Text style={{fontWeight: 'bold'}}>{rowData.trackName}</Text>
                         <Text>{rowData.releaseDate.split('-')[0]}</Text>
                         <Text>{rowData.country}</Text>
                         <Text>{rowData.primaryGenreName}</Text>
@@ -117,21 +117,61 @@ class SearchIMDB extends Component {
     }
 
     refreshData(event) {
-        if (event.nativeEvent.contentOffset.y <= -100) {
+        if (this.state.showProgress == true) {
+            return;
+        }
+
+        if (event.nativeEvent.contentOffset.y <= -150) {
 
             this.setState({
                 showProgress: true,
-                serverError: false,
-                resultsCount: event.nativeEvent.contentOffset.y
+                resultsCount: 0,
+                recordsCount: 5,
+                positionY: 0,
+                searchQuery: ''
             });
             setTimeout(() => {
                 this.getMovies()
-            }, 300);
+            }, 100);
+        }
+
+        if (this.state.filteredItems == undefined) {
+            return;
+        }
+
+        var items, positionY, recordsCount;
+        recordsCount = this.state.recordsCount;
+        positionY = this.state.positionY;
+        items = this.state.filteredItems.slice(0, recordsCount);
+
+        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
+
+        if (event.nativeEvent.contentOffset.y >= positionY - 110) {
+            console.log(items.length);
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(items),
+                recordsCount: recordsCount + 3,
+                positionY: positionY + 380
+            });
         }
     }
 
+    onChangeText(text) {
+        if (this.state.responseData == undefined) {
+            return;
+        }
+        var arr = [].concat(this.state.responseData);
+        var items = arr.filter((el) => el.trackName.toLowerCase().indexOf(text.toLowerCase()) >= 0);
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(items),
+            resultsCount: items.length,
+            filteredItems: items,
+            searchQuery: text
+        })
+    }
+
     render() {
-        var errorCtrl = <View />;
+        var errorCtrl, loader;
 
         if (this.state.serverError) {
             errorCtrl = <Text style={styles.error}>
@@ -140,17 +180,16 @@ class SearchIMDB extends Component {
         }
 
         if (this.state.showProgress) {
-            return (
-                <View style={{
-                    flex: 1,
-                    justifyContent: 'center'
-                }}>
-                    <ActivityIndicator
-                        size="large"
-                        animating={true}/>
-                </View>
-            );
+            loader = <View style={{
+                justifyContent: 'center',
+                height: 100
+            }}>
+                <ActivityIndicator
+                    size="large"
+                    animating={true}/>
+            </View>;
         }
+
         return (
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginTop: 60}}>
@@ -163,14 +202,8 @@ class SearchIMDB extends Component {
                         borderColor: 'lightgray',
                         borderRadius: 0,
                     }}
-                               onChangeText={(text)=> {
-                                   var arr = [].concat(this.state.responseData);
-                                   var items = arr.filter((el) => el.trackName.indexOf(text) >= 0);
-                                   this.setState({
-                                       dataSource: this.state.dataSource.cloneWithRows(items),
-                                       resultsCount: items.length,
-                                   })
-                               }}
+                               onChangeText={this.onChangeText.bind(this)}
+                               value={this.state.searchQuery}
                                placeholder="Search here">
                     </TextInput>
 
@@ -178,10 +211,12 @@ class SearchIMDB extends Component {
 
                 </View>
 
+                {loader}
+
                 <ScrollView
-                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}
-                    style={{marginTop: 0, marginBottom: 0}}>
+                    onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
+                        style={{marginTop: -65, marginBottom: -45}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />
