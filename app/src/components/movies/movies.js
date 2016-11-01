@@ -200,7 +200,7 @@ class Movies extends Component {
             });
             setTimeout(() => {
                 this.getFavoritesMovies()
-            }, 100);
+            }, 1000);
         }
 
         if (this.state.filteredItems == undefined) {
@@ -214,12 +214,12 @@ class Movies extends Component {
 
         console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
 
-        if (event.nativeEvent.contentOffset.y >= positionY - 110) {
+        if (event.nativeEvent.contentOffset.y >= positionY - 550) {
             console.log(items.length);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(items),
-                recordsCount: recordsCount + 3,
-                positionY: positionY + 380
+                recordsCount: recordsCount + 5,
+                positionY: positionY + 600
             });
         }
     }
