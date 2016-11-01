@@ -63,7 +63,7 @@ class MoviesDetails extends Component {
 
                     {image}
 
-                    <Text style={styles.welcome}>
+                    <Text style={styles.welcome1}>
                         {this.state.pushEvent.trackName}
                     </Text>
 
@@ -103,6 +103,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
+    },
+    welcome1: {
+        fontSize: 18,
+        textAlign: 'center',
+        margin: 10,
+        fontWeight: 'bold'
     },
     welcome: {
         fontSize: 18,
