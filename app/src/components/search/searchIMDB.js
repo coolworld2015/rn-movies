@@ -60,7 +60,6 @@ class SearchIMDB extends Component {
                     arr[0].artistName = responseData.Director;
                     arr[0].longDescription = responseData.Plot;
                 }
-                console.log(arr);
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(arr),
                     resultsCount: arr.length,
@@ -144,10 +143,7 @@ class SearchIMDB extends Component {
         positionY = this.state.positionY;
         items = this.state.filteredItems.slice(0, recordsCount);
 
-        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
-
         if (event.nativeEvent.contentOffset.y >= positionY - 110) {
-            console.log(items.length);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(items),
                 recordsCount: recordsCount + 3,

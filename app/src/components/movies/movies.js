@@ -90,7 +90,6 @@ class Movies extends Component {
 
                 movies = [].concat(json);
 
-                console.log(movies);
                 for (var i = 0; i < movies.length; i++) {
                     if (movies[i].trackId == id) {
                         movies.splice(i, 1);
@@ -212,10 +211,7 @@ class Movies extends Component {
         positionY = this.state.positionY;
         items = this.state.filteredItems.slice(0, recordsCount);
 
-        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
-
         if (event.nativeEvent.contentOffset.y >= positionY - 550) {
-            console.log(items.length);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(items),
                 recordsCount: recordsCount + 5,

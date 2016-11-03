@@ -133,10 +133,7 @@ class SearchResults extends Component {
         positionY = this.state.positionY;
         items = this.state.filteredItems.slice(0, recordsCount);
 
-        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
-
         if (event.nativeEvent.contentOffset.y >= positionY - 550) {
-            console.log(items.length);
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(items),
                 recordsCount: recordsCount + 5,

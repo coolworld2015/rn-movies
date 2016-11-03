@@ -39,7 +39,6 @@ class SearchDetails extends Component {
                 if (movies[0] == null) {
                     movies.shift()
                 } // Hack !!!
-                console.log(movies);
 
                 AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
                     .then(json => {

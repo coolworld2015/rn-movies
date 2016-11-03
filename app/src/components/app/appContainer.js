@@ -39,7 +39,6 @@ class AppContainer extends Component {
         AsyncStorage.getItem('rn-movies.movies')
             .then(req => JSON.parse(req))
             .then(json => {
-                console.log(json);
                 if (json == undefined || json == null || json[0] == null) {
                     this.setState({
                         selectedTab: 'Search'
