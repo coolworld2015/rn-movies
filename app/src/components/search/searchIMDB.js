@@ -131,7 +131,7 @@ class SearchIMDB extends Component {
             });
             setTimeout(() => {
                 this.getMovies()
-            }, 100);
+            }, 500);
         }
 
         if (this.state.filteredItems == undefined) {

@@ -121,7 +121,7 @@ class SearchResults extends Component {
             });
             setTimeout(() => {
                 this.getMovies()
-            }, 300);
+            }, 500);
         }
 
         if (this.state.filteredItems == undefined) {
