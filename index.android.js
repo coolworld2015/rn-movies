@@ -6,10 +6,6 @@ import {
   AppRegistry
 } from 'react-native';
 
-//import App from './app/src/android/app/app';
+import App from './app/src/android/app/app';
 
-import Search from './app/src/android/search/search';
-
-//AppRegistry.registerComponent('rxMovies', () => App);
-
-AppRegistry.registerComponent('rxMovies', () => Search);
+AppRegistry.registerComponent('rxMovies', () => App);

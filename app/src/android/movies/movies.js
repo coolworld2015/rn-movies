@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 
 import React, {Component} from 'react';
 import {
@@ -11,14 +11,14 @@ import {
     ListView,
     ScrollView,
     ActivityIndicator,
-    TabBarIOS,
-    NavigatorIOS,
-    TextInput
+    TextInput,
+    AsyncStorage,
+    Alert
 } from 'react-native';
 
-import SearchDetails from './searchDetails';
+//import MoviesDetails from './moviesDetails';
 
-class SearchResults extends Component {
+class Movies extends Component {
     constructor(props) {
         super(props);
 
@@ -28,39 +28,41 @@ class SearchResults extends Component {
 
         this.state = {
             dataSource: ds.cloneWithRows([]),
-            searchQueryHttp: props.searchQuery,
             showProgress: true,
             resultsCount: 0,
             recordsCount: 5,
             positionY: 0
         };
 
-        this.getMovies();
+        this.getFavoritesMovies();
     }
 
-    getMovies() {
-        fetch('https://itunes.apple.com/search?media=movie&term='
-            + this.state.searchQueryHttp, {
-            method: 'get',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((response)=> response.json())
-            .then((responseData)=> {
-                this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.results.slice(0, 5)),
-                    resultsCount: responseData.results.length,
-                    responseData: responseData.results,
-                    filteredItems: responseData.results
-                });
+    componentWillUpdate() {
+        if (App.movies.refresh) {
+            App.movies.refresh = false;
+
+            this.setState({
+                showProgress: true
+            });
+
+            this.getFavoritesMovies();
+        }
+    }
+
+    getFavoritesMovies() {
+        AsyncStorage.getItem('rn-movies.movies')
+            .then(req => JSON.parse(req))
+            .then(json => {
+				if (json) {
+					this.setState({
+						dataSource: this.state.dataSource.cloneWithRows(json.sort(this.sort).slice(0, 5)),
+						resultsCount: json.length,
+						responseData: json.sort(this.sort),
+						filteredItems: json.sort(this.sort)
+					});
+				}
             })
-            .catch((error)=> {
-                this.setState({
-                    serverError: true
-                });
-            })
+            .catch(error => console.log(error))
             .finally(()=> {
                 this.setState({
                     showProgress: false
@@ -68,10 +70,63 @@ class SearchResults extends Component {
             });
     }
 
+    sort(a, b) {
+        var nameA = a.trackName.toLowerCase(), nameB = b.trackName.toLowerCase();
+        if (nameA < nameB) {
+            return -1
+        }
+        if (nameA > nameB) {
+            return 1
+        }
+        return 0;
+    }
+
+    deleteMovie(id) {
+        var movies = [];
+
+        AsyncStorage.getItem('rn-movies.movies')
+            .then(req => JSON.parse(req))
+            .then(json => {
+
+                movies = [].concat(json);
+
+                for (var i = 0; i < movies.length; i++) {
+                    if (movies[i].trackId == id) {
+                        movies.splice(i, 1);
+                        break;
+                    }
+                }
+
+                AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+                    .then(json => {
+                            App.movies.refresh = true;
+                            this.props.navigator.pop();
+                        }
+                    );
+
+            })
+            .catch(error => console.log(error))
+    }
+
     pressRow(rowData) {
         this.props.navigator.push({
             title: rowData.trackName,
-            component: SearchDetails,
+            component: MoviesDetails,
+            rightButtonTitle: 'Delete',
+            onRightButtonPress: () => {
+                Alert.alert(
+                    'Delete',
+                    'Are you sure you want to delete ' + rowData.trackName + '?',
+                    [
+                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                        {
+                            text: 'OK', onPress: () => {
+                            this.deleteMovie(rowData.trackId);
+                        }
+                        },
+                    ]
+                );
+            },
             passProps: {
                 pushEvent: rowData
             }
@@ -79,16 +134,39 @@ class SearchResults extends Component {
     }
 
     renderRow(rowData) {
+        var image = <View />;
+        if (rowData) {
+            if (rowData.artworkUrl100) {
+                image = <Image
+                    source={{uri: rowData.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
+                    style={{
+                        height: 95,
+                        width: 75,
+                        borderRadius: 20,
+                        margin: 20
+                    }}
+                />;
+            } else {
+                image = <Image
+                    source={{uri: rowData.pic}}
+                    style={{
+                        height: 95,
+                        width: 75,
+                        borderRadius: 20,
+                        margin: 20
+                    }}
+                />;
+            }
+        }
         return (
             <TouchableHighlight
                 onPress={()=> this.pressRow(rowData)}
                 underlayColor='#ddd'
             >
                 <View style={styles.imgsList}>
-                    <Image
-                        source={{uri: rowData.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
-                        style={styles.img}
-                    />
+
+                    {image}
+
                     <View style={{
                         flex: 1,
                         flexDirection: 'column',
@@ -120,8 +198,8 @@ class SearchResults extends Component {
                 searchQuery: ''
             });
             setTimeout(() => {
-                this.getMovies()
-            }, 500);
+                this.getFavoritesMovies()
+            }, 1000);
         }
 
         if (this.state.filteredItems == undefined) {
@@ -178,12 +256,64 @@ class SearchResults extends Component {
 
         return (
             <View style={{flex: 1, justifyContent: 'center'}}>
-                <View style={{marginTop: 60}}>
+				<View style={{
+						flexDirection: 'row',
+						justifyContent: 'space-between'
+					}}>
+					<View>
+						<TouchableHighlight
+							//onPress={()=> this.goBack()}
+							underlayColor='#ddd'
+						>
+							<Text style={{
+								fontSize: 16,
+								textAlign: 'center',
+								margin: 14,
+								fontWeight: 'bold'
+							}}>
+								
+							</Text>
+						</TouchableHighlight>	
+					</View>
+					<View>
+						<TouchableHighlight
+							underlayColor='#ddd'
+						>
+							<Text style={{
+								fontSize: 20,
+								textAlign: 'center',
+								margin: 10,
+								fontWeight: 'bold',
+								color: 'black'
+							}}>
+								Movies
+							</Text>
+						</TouchableHighlight>	
+					</View>						
+					<View>
+						<TouchableHighlight
+							//onPress={()=> this.addUser()}
+							underlayColor='#ddd'
+						>
+							<Text style={{
+								fontSize: 16,
+								textAlign: 'center',
+								margin: 14,
+								fontWeight: 'bold',
+								color: 'black'
+							}}>
+							
+							</Text>
+						</TouchableHighlight>	
+					</View>
+				</View>
+			
+                <View style={{marginTop: 0}}>
                     <TextInput style={{
                         height: 45,
-                        marginTop: 4,
+						marginTop: 4,
                         padding: 5,
-                        backgroundColor: 'white',
+                        backgroundColor: 'whitesmoke',
                         borderWidth: 3,
                         borderColor: 'lightgray',
                         borderRadius: 0,
@@ -209,7 +339,7 @@ class SearchResults extends Component {
                     />
                 </ScrollView>
 
-                <View style={{marginBottom: 49}}>
+                <View style={{marginBottom: 0}}>
                     <Text style={styles.countFooter}>
                         {this.state.resultsCount} entries were found.
                     </Text>
@@ -242,7 +372,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 10,
         borderColor: '#D7D7D7',
-        backgroundColor: 'whitesmoke'
+        backgroundColor: 'lightgray',
+		color: 'black'
     },
     img: {
         height: 95,
@@ -257,4 +388,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SearchResults;
+export default Movies;
