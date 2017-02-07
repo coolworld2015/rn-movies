@@ -26,13 +26,19 @@ class SearchResults extends Component {
             rowHasChanged: (r1, r2) => r1 != r2
         });
 
-        this.state = {
-            dataSource: ds.cloneWithRows([]),
-            searchQueryHttp: props.searchQuery,
-            showProgress: true,
-            resultsCount: 0,
-            recordsCount: 5,
-            positionY: 0
+		this.state = {
+			dataSource: ds.cloneWithRows([])
+		}	
+		
+		if (props.data) {
+			this.state = {			
+				dataSource: ds.cloneWithRows([]),
+				searchQueryHttp: props.data.searchQuery,
+				showProgress: true,
+				resultsCount: 0,
+				recordsCount: 5,
+				positionY: 0
+			}
         };
 
         this.getMovies();
@@ -68,7 +74,7 @@ class SearchResults extends Component {
             });
     }
 
-    pressRow(rowData) {
+    pressRow1(rowData) {
         this.props.navigator.push({
             title: rowData.trackName,
             component: SearchDetails,
@@ -77,7 +83,14 @@ class SearchResults extends Component {
             }
         });
     }
-
+	
+    pressRow(rowData) {
+		this.props.navigator.push({
+			index: 2,
+			data: rowData
+		});
+    }
+	
     renderRow(rowData) {
         return (
             <TouchableHighlight
@@ -94,7 +107,7 @@ class SearchResults extends Component {
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}>
-                        <Text style={{fontWeight: 'bold'}}>{rowData.trackName}</Text>
+                        <Text style={{fontWeight: 'bold', color: 'black'}}>{rowData.trackName}</Text>
                         <Text>{rowData.releaseDate.split('-')[0]}</Text>
                         <Text>{rowData.country}</Text>
                         <Text>{rowData.primaryGenreName}</Text>
@@ -155,7 +168,11 @@ class SearchResults extends Component {
             searchQuery: text
         })
     }
-
+	
+    goBack(rowData) {
+		this.props.navigator.pop();
+	}
+	
     render() {
         var errorCtrl, loader;
 
@@ -178,12 +195,65 @@ class SearchResults extends Component {
 
         return (
             <View style={{flex: 1, justifyContent: 'center'}}>
-                <View style={{marginTop: 60}}>
+							<View style={{
+						flexDirection: 'row',
+						justifyContent: 'space-between'
+					}}>
+					<View>
+						<TouchableHighlight
+							onPress={()=> this.goBack()}
+							underlayColor='#ddd'
+						>
+							<Text style={{
+								fontSize: 16,
+								textAlign: 'center',
+								margin: 14,
+								fontWeight: 'bold',
+								color: 'black'
+							}}>
+								 Back
+							</Text>
+						</TouchableHighlight>	
+					</View>
+					<View>
+						<TouchableHighlight
+							underlayColor='#ddd'
+						>
+							<Text style={{
+								fontSize: 20,
+								textAlign: 'center',
+								margin: 10,
+								fontWeight: 'bold',
+								color: 'black'
+							}}>
+								{this.state.searchQueryHttp}
+							</Text>
+						</TouchableHighlight>	
+					</View>						
+					<View>
+						<TouchableHighlight
+							onPress={()=> this.goBack()}
+							underlayColor='#ddd'
+						>
+							<Text style={{
+								fontSize: 16,
+								textAlign: 'center',
+								margin: 14,
+								fontWeight: 'bold',
+								color: 'black'
+							}}>
+								Done 
+							</Text>
+						</TouchableHighlight>	
+					</View>
+				</View>
+				
+                <View style={{marginTop: 0}}>
                     <TextInput style={{
                         height: 45,
                         marginTop: 4,
                         padding: 5,
-                        backgroundColor: 'white',
+                        backgroundColor: 'whitesmoke',
                         borderWidth: 3,
                         borderColor: 'lightgray',
                         borderRadius: 0,
@@ -209,7 +279,7 @@ class SearchResults extends Component {
                     />
                 </ScrollView>
 
-                <View style={{marginBottom: 49}}>
+                <View style={{marginBottom: 0}}>
                     <Text style={styles.countFooter}>
                         {this.state.resultsCount} entries were found.
                     </Text>
@@ -242,7 +312,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 10,
         borderColor: '#D7D7D7',
-        backgroundColor: 'whitesmoke'
+        backgroundColor: 'lightgray',
+		color: 'black'
     },
     img: {
         height: 95,

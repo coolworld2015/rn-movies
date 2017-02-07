@@ -18,6 +18,7 @@ import Search from '../search/search';
 import SearchResults from '../search/searchResults';
 
 import Movies from '../movies/movies';
+import MoviesDetails from '../movies/moviesDetails';
 
 class AppContainer extends Component {
 	constructor(props) {
@@ -46,7 +47,7 @@ class SearchTab extends Component {
 		this.routes = [
 			{title: 'Search', index: 0},
 			{title: 'Search Results', index: 1},
-			{title: 'Phones Details', index: 2}
+			{title: 'Movies Details', index: 2}
 		];
 	}
 		  
@@ -56,7 +57,7 @@ class SearchTab extends Component {
 					break;			
 			case 1: return <SearchResults data={route.data} routes={this.routes} navigator={navigator} />
 					break;			
-			case 2: return <Search data={route.data} routes={this.routes} navigator={navigator} />
+			case 2: return <MoviesDetails data={route.data} routes={this.routes} navigator={navigator} />
 					break
  		}
  	}	

@@ -17,8 +17,8 @@ import {
     Switch
 } from 'react-native';
 
-import SearchResults from './searchResults';
-import SearchIMDB from './searchIMDB';
+//import SearchResults from './searchResults';
+//import SearchIMDB from './searchIMDB';
 
 class Search extends Component {
     constructor(props) {
@@ -39,7 +39,14 @@ class Search extends Component {
             invalidValue: false
         })
     }
-
+	
+    showDetails(rowData) {
+		this.props.navigator.push({
+			index: 1,
+			data: rowData
+		});
+    }
+	
     onSearchPressed() {
         if (this.state.searchQuery == undefined) {
             this.setState({
@@ -49,6 +56,11 @@ class Search extends Component {
         }
 
         if (this.state.eventSwitchBase) {
+			this.props.navigator.push({
+				index: 1,
+				data: {searchQuery: this.state.searchQuery}
+			});
+			/*
             this.props.navigator.push({
                 title: this.state.searchQuery,
                 component: SearchResults,
@@ -56,7 +68,9 @@ class Search extends Component {
                     searchQuery: this.state.searchQuery
                 }
             })
+			*/
         } else {
+			/*
             this.props.navigator.push({
                 title: this.state.searchQuery,
                 component: SearchIMDB,
@@ -64,6 +78,7 @@ class Search extends Component {
                     searchQuery: this.state.searchQuery
                 }
             })
+			*/
         }
 
     }
@@ -215,7 +230,9 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         flex: 1,
-        marginTop: 0
+        marginTop: 0,
+		backgroundColor: 'white',
+		paddingBottom: 155
     },
     loginInput1: {
         height: 50,

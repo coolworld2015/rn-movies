@@ -21,79 +21,153 @@ import {
 class MoviesDetails extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            pushEvent: props.pushEvent
-        };
+		
+		this.state = {
+			pushEvent: {
+				trackName: '',
+				releaseDate: ' - '
+			}
+		};
+		
+		if (props.data) {
+			this.state = {
+				pushEvent: props.data
+			};
+		}	
     }
-
+	
+	goBack() {
+		this.props.navigator.pop();
+	}
+	
     render() {
         var image = <View />;
-
-        if (this.state.pushEvent.artworkUrl100) {
-            image = <Image
-                source={{uri: this.state.pushEvent.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
-                style={{
-                    height: 300,
-                    width: 200,
-                    borderRadius: 20,
-                    margin: 20
-                }}
-            />;
-        } else {
-            image = <Image
-                source={{uri: this.state.pushEvent.pic}}
-                style={{
-                    height: 300,
-                    width: 200,
-                    borderRadius: 20,
-                    margin: 20
-                }}
-            />;
-        }
-
+		
+		if (this.state.pushEvent) {
+			if (this.state.pushEvent.artworkUrl100) {
+				image = <Image
+					source={{uri: this.state.pushEvent.artworkUrl100.replace('100x100bb.jpg', '500x500bb.jpg')}}
+					style={{
+						height: 300,
+						width: 200,
+						borderRadius: 20,
+						margin: 20
+					}}
+				/>;
+			} else {
+				image = <Image
+					source={{uri: this.state.pushEvent.pic}}
+					style={{
+						height: 300,
+						width: 200,
+						borderRadius: 20,
+						margin: 20
+					}}
+				/>;
+			}
+		}
+		
         return (
-            <ScrollView>
-                <View style={{
-                    flex: 1,
-                    paddingTop: 20,
-                    justifyContent: 'flex-start',
-                    alignItems: 'center'
-                }}>
+			<View style={{flex: 1, justifyContent: 'center'}}>
+				<View style={{
+					flexDirection: 'row',
+					justifyContent: 'space-between'
+				}}>
+					<View>
+						<TouchableHighlight
+							onPress={()=> this.goBack()}
+							underlayColor='#ddd'
+						>
+							<Text style={{
+								fontSize: 16,
+								textAlign: 'center',
+								margin: 14,
+								fontWeight: 'bold',
+								color: 'black'
+							}}>
+								Back
+							</Text>
+						</TouchableHighlight>	
+					</View>
+					<View>
+						<TouchableHighlight
+							underlayColor='#ddd'
+						>
+							<Text style={{
+								fontSize: 20,
+								textAlign: 'center',
+								margin: 10,
+								fontWeight: 'bold',
+								color: 'black'
+							}}>
+								{this.state.pushEvent.trackName}
+							</Text>
+						</TouchableHighlight>	
+					</View>						
+					<View>
+						<TouchableHighlight
+							onPress={()=> this.goBack()}
+							underlayColor='#ddd'
+						>
+							<Text style={{
+								fontSize: 16,
+								textAlign: 'center',
+								margin: 14,
+								fontWeight: 'bold',
+								color: 'black'
+							}}>
+								Done 
+							</Text>
+						</TouchableHighlight>	
+					</View>
+				</View>
+				
+				<ScrollView>
+					<View style={{
+							flex: 1,
+							padding: 10,
+							paddingBottom: 55,
+							justifyContent: 'flex-start',
+							backgroundColor: 'white'
+					}}>
+					<View style={{
+						 alignItems: 'center'
+					}}>
+						{image}
+					</View>
+					
+						<Text style={styles.welcome1}>
+							{this.state.pushEvent.trackName}
+						</Text>
 
-                    {image}
+						<Text style={styles.welcome}>
+							{this.state.pushEvent.releaseDate.split('-')[0]}
+						</Text>
 
-                    <Text style={styles.welcome1}>
-                        {this.state.pushEvent.trackName}
-                    </Text>
+						<Text style={styles.welcome}>
+							{this.state.pushEvent.country}
+						</Text>
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.releaseDate.split('-')[0]}
-                    </Text>
+						<Text style={styles.welcome}>
+							{this.state.pushEvent.primaryGenreName}
+						</Text>
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.country}
-                    </Text>
+						<Text style={styles.welcome}>
+							{this.state.pushEvent.artistName}
+						</Text>
 
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.primaryGenreName}
-                    </Text>
-
-                    <Text style={styles.welcome}>
-                        {this.state.pushEvent.artistName}
-                    </Text>
-
-                    <Text style={{
-                        fontSize: 16,
-                        padding: 20,
-                        textAlign: 'justify'
-                    }}>
-                        {this.state.pushEvent.longDescription}
-                    </Text>
-
-                </View>
-            </ScrollView>
-        );
+						<Text style={{
+							fontSize: 16,
+							padding: 20,
+							textAlign: 'justify',
+							color: 'black'
+						}}>
+							{this.state.pushEvent.longDescription}
+						</Text>
+					</View>
+				</ScrollView>
+			</View>
+		);
     }
 }
 
@@ -108,12 +182,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         margin: 10,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+		color: 'black'
     },
     welcome: {
         fontSize: 18,
         textAlign: 'center',
         margin: 10,
+		color: 'black'
     },
     container: {
         backgroundColor: '#F5FCFF',
