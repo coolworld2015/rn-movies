@@ -108,29 +108,11 @@ class Movies extends Component {
             .catch(error => console.log(error))
     }
 
-    pressRow(rowData) {
-        this.props.navigator.push({
-            title: rowData.trackName,
-            component: MoviesDetails,
-            rightButtonTitle: 'Delete',
-            onRightButtonPress: () => {
-                Alert.alert(
-                    'Delete',
-                    'Are you sure you want to delete ' + rowData.trackName + '?',
-                    [
-                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-                        {
-                            text: 'OK', onPress: () => {
-                            this.deleteMovie(rowData.trackId);
-                        }
-                        },
-                    ]
-                );
-            },
-            passProps: {
-                pushEvent: rowData
-            }
-        });
+    showDetails(rowData) {
+		this.props.navigator.push({
+			index: 1,
+			data: rowData
+		});
     }
 
     renderRow(rowData) {
@@ -160,7 +142,7 @@ class Movies extends Component {
         }
         return (
             <TouchableHighlight
-                onPress={()=> this.pressRow(rowData)}
+                onPress={()=> this.showDetails(rowData)}
                 underlayColor='#ddd'
             >
                 <View style={styles.imgsList}>

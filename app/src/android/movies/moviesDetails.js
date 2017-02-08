@@ -75,7 +75,7 @@ class MoviesDetails extends Component {
 				}}>
 					<View>
 						<TouchableHighlight
-							onPress={()=> this.goBack()}
+							//onPress={()=> this.goBack()}
 							underlayColor='#ddd'
 						>
 							<Text style={{
@@ -85,7 +85,7 @@ class MoviesDetails extends Component {
 								fontWeight: 'bold',
 								color: 'black'
 							}}>
-								Back
+								 
 							</Text>
 						</TouchableHighlight>	
 					</View>
@@ -106,7 +106,7 @@ class MoviesDetails extends Component {
 					</View>						
 					<View>
 						<TouchableHighlight
-							onPress={()=> this.goBack()}
+							//onPress={()=> this.goBack()}
 							underlayColor='#ddd'
 						>
 							<Text style={{
@@ -116,7 +116,7 @@ class MoviesDetails extends Component {
 								fontWeight: 'bold',
 								color: 'black'
 							}}>
-								Done 
+								 
 							</Text>
 						</TouchableHighlight>	
 					</View>
@@ -164,6 +164,14 @@ class MoviesDetails extends Component {
 						}}>
 							{this.state.pushEvent.longDescription}
 						</Text>
+						
+						<TouchableHighlight
+							onPress={()=> this.goBack()}
+
+							style={styles.button}>
+							<Text style={styles.buttonText}>Back</Text>
+						</TouchableHighlight>
+						
 					</View>
 				</ScrollView>
 			</View>
