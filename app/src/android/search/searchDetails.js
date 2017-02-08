@@ -15,12 +15,20 @@ import {
     NavigatorIOS,
     TextInput,
     AsyncStorage,
-    Alert
+    Alert,
+	BackAndroid
 } from 'react-native';
 
 class SearchDetails extends Component {
     constructor(props) {
         super(props);
+		
+		BackAndroid.addEventListener('hardwareBackPress', () => {
+			if (this.props.navigator) {
+				this.props.navigator.pop();
+			}
+			return true;
+		});	
 		
 		this.state = {
 			pushEvent: {
@@ -131,7 +139,7 @@ class SearchDetails extends Component {
 					</View>						
 					<View>
 						<TouchableHighlight
-							//onPress={()=> this.goBack()}
+							onPress={()=> this.localStorageInsert()}
 							underlayColor='#ddd'
 						>
 							<Text style={{
@@ -139,9 +147,9 @@ class SearchDetails extends Component {
 								textAlign: 'center',
 								margin: 14,
 								fontWeight: 'bold',
-								color: 'black'
+								color: 'darkblue'
 							}}>
-								 
+								Add 
 							</Text>
 						</TouchableHighlight>	
 					</View>

@@ -35,8 +35,8 @@ class AppContainer extends Component {
 	render() {
 		return (
 			<ScrollableTabView>
-				<SearchTab tabLabel="Search" />
 				<MoviesTab tabLabel="Movies" />
+				<SearchTab tabLabel="Search" />
 			</ScrollableTabView>
 		);
 	}

@@ -15,12 +15,20 @@ import {
     NavigatorIOS,
     TextInput,
     AsyncStorage,
-    Alert
+    Alert,
+	BackAndroid
 } from 'react-native';
 
 class MoviesDetails extends Component {
     constructor(props) {
         super(props);
+		
+		BackAndroid.addEventListener('hardwareBackPress', () => {
+			if (this.props.navigator) {
+				this.props.navigator.pop();
+			}
+			return true;
+		});	
 		
 		this.state = {
 			pushEvent: {
@@ -38,8 +46,8 @@ class MoviesDetails extends Component {
 	
     deleteMovieDialog() {
 		Alert.alert(
-			'Delete user',
-			'Are you sure you want to delete user ' + this.state.pushEvent.trackName + '?',
+			'Delete movie',
+			'Are you sure you want to delete movie ' + this.state.pushEvent.trackName + '?',
 			[
 				{text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
 				{
