@@ -81,33 +81,6 @@ class Movies extends Component {
         return 0;
     }
 
-    deleteMovie(id) {
-        var movies = [];
-
-        AsyncStorage.getItem('rn-movies.movies')
-            .then(req => JSON.parse(req))
-            .then(json => {
-
-                movies = [].concat(json);
-
-                for (var i = 0; i < movies.length; i++) {
-                    if (movies[i].trackId == id) {
-                        movies.splice(i, 1);
-                        break;
-                    }
-                }
-
-                AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
-                    .then(json => {
-                            App.movies.refresh = true;
-                            this.props.navigator.pop();
-                        }
-                    );
-
-            })
-            .catch(error => console.log(error))
-    }
-
     showDetails(rowData) {
 		this.props.navigator.push({
 			index: 1,
@@ -154,7 +127,7 @@ class Movies extends Component {
                         flexDirection: 'column',
                         justifyContent: 'space-between'
                     }}>
-                        <Text style={{fontWeight: 'bold'}}>{rowData.trackName}</Text>
+                        <Text style={{fontWeight: 'bold', color: 'black'}}>{rowData.trackName}</Text>
                         <Text>{rowData.releaseDate.split('-')[0]}</Text>
                         <Text>{rowData.country}</Text>
                         <Text>{rowData.primaryGenreName}</Text>
@@ -215,7 +188,15 @@ class Movies extends Component {
             searchQuery: text
         })
     }
+	
+	refreshDataAndroid() {
+		this.setState({
+			showProgress: true
+		});
 
+		this.getFavoritesMovies();
+	}
+	
     render() {
         var errorCtrl, loader;
 
@@ -244,16 +225,17 @@ class Movies extends Component {
 					}}>
 					<View>
 						<TouchableHighlight
-							//onPress={()=> this.goBack()}
+							onPress={()=> this.refreshDataAndroid()}
 							underlayColor='#ddd'
 						>
 							<Text style={{
 								fontSize: 16,
 								textAlign: 'center',
 								margin: 14,
-								fontWeight: 'bold'
+								fontWeight: 'bold',
+								color: 'darkblue'
 							}}>
-								
+								Reload
 							</Text>
 						</TouchableHighlight>	
 					</View>
@@ -265,6 +247,7 @@ class Movies extends Component {
 								fontSize: 20,
 								textAlign: 'center',
 								margin: 10,
+								marginRight: 50,
 								fontWeight: 'bold',
 								color: 'black'
 							}}>

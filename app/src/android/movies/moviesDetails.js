@@ -36,6 +36,49 @@ class MoviesDetails extends Component {
 		}	
     }
 	
+    deleteMovieDialog() {
+		Alert.alert(
+			'Delete user',
+			'Are you sure you want to delete user ' + this.state.pushEvent.trackName + '?',
+			[
+				{text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+				{
+					text: 'OK', onPress: () => {
+					this.deleteMovie();
+					}
+				},
+			]
+		);	
+	}
+	
+	deleteMovie(id) {
+		var id = this.state.pushEvent.trackId;
+		var movies = [];
+
+		AsyncStorage.getItem('rn-movies.movies')
+			.then(req => JSON.parse(req))
+			.then(json => {
+
+				movies = [].concat(json);
+
+				for (var i = 0; i < movies.length; i++) {
+					if (movies[i].trackId == id) {
+						movies.splice(i, 1);
+						break;
+					}
+				}
+
+				AsyncStorage.setItem('rn-movies.movies', JSON.stringify(movies))
+					.then(json => {
+							App.movies.refresh = true;
+							this.props.navigator.pop();
+						}
+					);
+
+			})
+			.catch(error => console.log(error))
+	}
+		
 	goBack() {
 		this.props.navigator.pop();
 	}
@@ -66,7 +109,7 @@ class MoviesDetails extends Component {
 				/>;
 			}
 		}
-		
+
         return (
 			<View style={{flex: 1, justifyContent: 'center'}}>
 				<View style={{
@@ -75,7 +118,7 @@ class MoviesDetails extends Component {
 				}}>
 					<View>
 						<TouchableHighlight
-							//onPress={()=> this.goBack()}
+							onPress={()=> this.goBack()}
 							underlayColor='#ddd'
 						>
 							<Text style={{
@@ -83,9 +126,9 @@ class MoviesDetails extends Component {
 								textAlign: 'center',
 								margin: 14,
 								fontWeight: 'bold',
-								color: 'black'
+								color: 'darkblue'
 							}}>
-								 
+								Back 
 							</Text>
 						</TouchableHighlight>	
 					</View>
@@ -97,6 +140,7 @@ class MoviesDetails extends Component {
 								fontSize: 20,
 								textAlign: 'center',
 								margin: 10,
+								marginRight: 20,
 								fontWeight: 'bold',
 								color: 'black'
 							}}>
@@ -106,7 +150,7 @@ class MoviesDetails extends Component {
 					</View>						
 					<View>
 						<TouchableHighlight
-							//onPress={()=> this.goBack()}
+							onPress={()=> this.deleteMovieDialog()}
 							underlayColor='#ddd'
 						>
 							<Text style={{
@@ -114,9 +158,9 @@ class MoviesDetails extends Component {
 								textAlign: 'center',
 								margin: 14,
 								fontWeight: 'bold',
-								color: 'black'
+								color: 'darkblue'
 							}}>
-								 
+								Delete 
 							</Text>
 						</TouchableHighlight>	
 					</View>
