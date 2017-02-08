@@ -45,7 +45,9 @@ class Movies extends Component {
                 showProgress: true
             });
 
-            this.getFavoritesMovies();
+			setTimeout(() => {
+				this.getFavoritesMovies()
+			}, 1000);
         }
     }
 
@@ -194,7 +196,9 @@ class Movies extends Component {
 			showProgress: true
 		});
 
-		this.getFavoritesMovies();
+		setTimeout(() => {
+			this.getFavoritesMovies()
+		}, 1000);
 	}
 	
     render() {
