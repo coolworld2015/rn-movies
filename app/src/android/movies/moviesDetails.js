@@ -16,7 +16,8 @@ import {
     TextInput,
     AsyncStorage,
     Alert,
-	BackAndroid
+	BackAndroid,
+	UIExplorerBlock 
 } from 'react-native';
 
 class MoviesDetails extends Component {
@@ -140,7 +141,7 @@ class MoviesDetails extends Component {
 							</Text>
 						</TouchableHighlight>	
 					</View>
-					<View>
+					<View style={{flex:1,flexDirection:'column', flexWrap:'wrap'}}>
 						<TouchableHighlight
 							underlayColor='#ddd'
 						>
@@ -211,7 +212,7 @@ class MoviesDetails extends Component {
 						<Text style={{
 							fontSize: 16,
 							padding: 20,
-							textAlign: 'justify',
+							textAlign: 'center',
 							color: 'black'
 						}}>
 							{this.state.pushEvent.longDescription}

@@ -121,7 +121,7 @@ class SearchDetails extends Component {
 							</Text>
 						</TouchableHighlight>	
 					</View>
-					<View>
+					<View style={{flex:1,flexDirection:'column', flexWrap:'wrap'}}>
 						<TouchableHighlight
 							underlayColor='#ddd'
 						>
@@ -192,7 +192,7 @@ class SearchDetails extends Component {
 						<Text style={{
 							fontSize: 16,
 							padding: 20,
-							textAlign: 'justify',
+							textAlign: 'center',
 							color: 'black'
 						}}>
 							{this.state.pushEvent.longDescription}
