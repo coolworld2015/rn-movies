@@ -60,25 +60,11 @@ class Search extends Component {
 				index: 1,
 				data: {searchQuery: this.state.searchQuery}
 			});
-			/*
-            this.props.navigator.push({
-                title: this.state.searchQuery,
-                component: SearchResults,
-                passProps: {
-                    searchQuery: this.state.searchQuery
-                }
-            })
-			*/
         } else {
-			/*
-            this.props.navigator.push({
-                title: this.state.searchQuery,
-                component: SearchIMDB,
-                passProps: {
-                    searchQuery: this.state.searchQuery
-                }
-            })
-			*/
+			this.props.navigator.push({
+				index: 3,
+				data: {searchQuery: this.state.searchQuery}
+			});
         }
 
     }

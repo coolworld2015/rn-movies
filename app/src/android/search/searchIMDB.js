@@ -13,26 +13,40 @@ import {
     ActivityIndicator,
     TabBarIOS,
     NavigatorIOS,
-    TextInput
+    TextInput,
+	BackAndroid
 } from 'react-native';
-
-import SearchDetails from './searchDetails';
 
 class SearchIMDB extends Component {
     constructor(props) {
         super(props);
 
+		BackAndroid.addEventListener('hardwareBackPress', () => {
+			if (this.props.navigator) {
+				this.props.navigator.pop();
+			}
+			return true;
+		});	
+		
         var ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 != r2
         });
 
-        this.state = {
-            dataSource: ds.cloneWithRows([]),
-            searchQueryHttp: props.searchQuery,
-            showProgress: true,
-            resultsCount: 0
-        };
+		this.state = {
+			dataSource: ds.cloneWithRows([])
+		}
 
+		if (props.data) {
+			this.state = {
+				dataSource: ds.cloneWithRows([]),
+				searchQueryHttp: props.data.searchQuery,
+				showProgress: true,
+				resultsCount: 0,
+				recordsCount: 5,
+				positionY: 0
+			}
+		};
+		
         this.getMovies();
     }
 
@@ -47,6 +61,7 @@ class SearchIMDB extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
+console.log(responseData)
                 if (responseData.Response == 'False') {
                     var arr = [];
                 } else {
@@ -67,6 +82,7 @@ class SearchIMDB extends Component {
                 });
             })
             .catch((error)=> {
+console.log(error)				
                 this.setState({
                     serverError: true
                 });
@@ -188,7 +204,7 @@ class SearchIMDB extends Component {
 
         return (
             <View style={{flex: 1, justifyContent: 'center'}}>
-                <View style={{marginTop: 60}}>
+                <View style={{marginTop: 0}}>
                     <TextInput style={{
                         height: 45,
                         marginTop: 4,
@@ -212,13 +228,14 @@ class SearchIMDB extends Component {
                 <ScrollView
                     onScroll={this.refreshData.bind(this)} scrollEventThrottle={16}>
                     <ListView
-                        style={{marginTop: -65, marginBottom: -45}}
+						enableEmptySections={true}
+                        style={{marginTop: 0, marginBottom: 0}}
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />
                 </ScrollView>
 
-                <View style={{marginBottom: 49}}>
+                <View style={{marginBottom: 0}}>
                     <Text style={styles.countFooter}>
                         {this.state.resultsCount} entries were found.
                     </Text>

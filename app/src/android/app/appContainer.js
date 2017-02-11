@@ -17,6 +17,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Search from '../search/search';
 import SearchResults from '../search/searchResults';
 import SearchDetails from '../search/searchDetails';
+import SearchIMDB from '../search/searchIMDB';
 
 import Movies from '../movies/movies';
 import MoviesDetails from '../movies/moviesDetails';
@@ -59,6 +60,8 @@ class SearchTab extends Component {
 			case 1: return <SearchResults data={route.data} routes={this.routes} navigator={navigator} />
 					break;			
 			case 2: return <SearchDetails data={route.data} routes={this.routes} navigator={navigator} />
+					break			
+			case 3: return <SearchIMDB data={route.data} routes={this.routes} navigator={navigator} />
 					break
  		}
  	}	
